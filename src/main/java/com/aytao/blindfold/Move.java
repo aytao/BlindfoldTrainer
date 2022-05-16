@@ -9,10 +9,6 @@
 
 package com.aytao.blindfold;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Scanner;
-
 enum Move {
     // WCA legal moves
     U, Up, U2,
@@ -101,56 +97,5 @@ enum Move {
     /* Returns a random WCA-legal move */
     public static Move randomWCAMove() {
         return allMoves[(int) (Math.random() * NUM_WCA_LEGAL_MOVES)];
-    }
-
-    /*
-     * Creates a random scramble consisting of numMoves random
-     * WCA-legal moves, and returns the scramble generated
-     */
-    public static ArrayList<Move> scramble(int numMoves) {
-        ArrayList<Move> scramble = new ArrayList<>();
-
-        int previous = 18;
-
-        for (int i = 0; i < numMoves; i++) {
-            int moveNum = (int) (Math.random() * (NUM_WCA_LEGAL_MOVES - 3));
-            if (moveNum / 3 >= previous / 3) {
-                moveNum += 3;
-            }
-            Move move = allMoves[moveNum];
-            previous = moveNum;
-            scramble.add(move);
-        }
-        return scramble;
-    }
-
-    /*
-     *Gets all moves from a file, with the # character
-     * marking the beginning of comments. Comments last until the
-     * end of the line (terminated by the newline character).
-     */
-    public static ArrayList<Move> getAllMoves(String file) {
-        ArrayList<Move> moves = new ArrayList<>();
-
-        Scanner scanner;
-        try {
-            scanner = new Scanner(new File(file), "utf-8");
-        } catch (Exception e) {
-            throw new RuntimeException("Error opening file: '" + file + "'");
-        }
-
-        while (scanner.hasNext()) {
-            try {
-                String s = scanner.next();
-                if (s.charAt(0) == '#') {
-                    scanner.nextLine();
-                    continue;
-                }
-                moves.add(Move.move(s));
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        return moves;
     }
 }

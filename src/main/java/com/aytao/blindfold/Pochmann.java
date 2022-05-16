@@ -461,7 +461,7 @@ public class Pochmann {
             Cube cube = new Cube();
             cube.scrambleOrientation();
 
-            ArrayList<Move> scramble = Move.scramble(20);
+            ArrayList<Move> scramble = Sequence.getScramble();
             cube.execute(scramble);
 
             PochmannSolution solution = getSolution(cube);

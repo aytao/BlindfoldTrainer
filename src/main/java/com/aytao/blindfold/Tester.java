@@ -48,8 +48,8 @@ public class Tester {
             return;
         }
 
-        ArrayList<Move> scramble = Move.getAllMoves(args[0]);
-        ArrayList<Move> solution = Move.getAllMoves(args[1]);
+        ArrayList<Move> scramble = Sequence.getSequenceFromFile(args[0]);
+        ArrayList<Move> solution = Sequence.getSequenceFromFile(args[1]);
 
         Cube cube = new Cube();
         cube.scrambleOrientation();
