@@ -1,0 +1,21 @@
+b:R2
+c:F2 D
+d:F2
+f:F' D
+g:F'
+h:D' R
+i:F R'
+j:R'
+k:F' R'
+l:F2 R'
+m:F
+n:R' F
+o:R2 F
+p:R F
+q:R D'
+s:D F'
+t:R
+u:D
+v:
+w:D'
+x:D2

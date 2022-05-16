@@ -1,0 +1,22 @@
+a:Lw2 D' L2
+c:Lw2 D L2
+d:
+e:L Dw' L
+f:Dw' L
+g:L' Dw' L
+h:Dw L'
+i:Lw D' L2
+j:Dw2 L
+k:Lw D L2
+l:L'
+n:Dw L
+o:D2 L' Dw' L
+p:Dw' L'
+q:Lw' D L2
+r:L
+s:Lw' D' L2
+t:Dw2 L'
+u:D' L2
+v:D2 L2
+w:D L2
+x:L2
