@@ -52,7 +52,7 @@ enum Move {
             return Character.toLowerCase(s.charAt(0)) + s.substring(1);
         }
 
-        return this.name();
+        return s;
     }
 
     /* Parses a provided String into a Move.

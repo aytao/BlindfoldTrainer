@@ -10,18 +10,52 @@
 package com.aytao.blindfold;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.Stack;
 
 import org.worldcubeassociation.tnoodle.scrambles.Puzzle;
 import org.worldcubeassociation.tnoodle.scrambles.PuzzleRegistry;
 
 public class Sequence {
-    private static final Puzzle SCRAMBLER = PuzzleRegistry.THREE_NI.getScrambler();
+    private static final Puzzle SCRAMBLER = PuzzleRegistry.THREE.getScrambler();
 
     /* Returns a WCA legal scramble */
     public static ArrayList<Move> getScramble() {
         return getSequence(SCRAMBLER.generateScramble());
+    }
+
+    /* Returns the specified number of scrambles */
+    public static Set<ArrayList<Move>> getScrambles(int count) {
+        Set<ArrayList<Move>> scrambles = new HashSet<>();
+        String[] scrambleStrs = SCRAMBLER.generateScrambles(count);
+        for (String scrambleStr : scrambleStrs) {
+            scrambles.add(getSequence(scrambleStr));
+        }
+        return scrambles;
+    }
+
+    /* Returns a WCA legal scramble as a String */
+    public static String getScrambleString() {
+        return SCRAMBLER.generateScramble();
+    }
+
+    /* Returns the specified number of scrambles as Strings */
+    public static String[] getScrambleStrings(int count) {
+        return SCRAMBLER.generateScrambles(count);
+    }
+
+    /* Returns a string of each move seperated by spaces */
+    public static String toString(ArrayList<Move> scramble) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < scramble.size(); i++) {
+            if (i != 0) {
+                sb.append(" ");
+            }
+            sb.append(scramble.get(i));
+        }
+        return sb.toString();
     }
 
     /*
