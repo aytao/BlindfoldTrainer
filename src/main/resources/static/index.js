@@ -6,7 +6,8 @@ let currentScramble = null;
 let request;
 let waiting = false;
 const MIN_SCRAMBLES = 5;
-const MORE_SCRAMBLES_URL = "/getScrambles"
+const MORE_SCRAMBLES_URL = "/getScrambles";
+const VALIDATE_SOLUTION_URL = "/validateSolution";
 
 function fetchMoreScrambles() {
     request = $.ajax({
@@ -29,6 +30,7 @@ function fetchMoreScrambles() {
             // TODO: HANDLE ERROR!
             console.log(response);
             request = null;
+            waiting = false;
         }
     });
 }
@@ -52,9 +54,31 @@ function getNewScramble() {
     $("#scramble").text(scramble);
 }
 
+function sendSolution() {
+    request = $.ajax({
+        type: "POST",
+        url: VALIDATE_SOLUTION_URL,
+        data: JSON.stringify({hello: "hi"}),
+        dataType: "json",
+        success: function (response) {
+            if (response.status != "SUCCESS") {
+                // TODO: HANDLE ERROR
+                return;
+            }
+            request = null;
+        }, error: function(response) {
+            // TODO: HANDLE ERROR!
+            console.log(response);
+            request = null;
+            waiting = false;
+        }
+    });
+}
+
 function setup() {
     puzzleDisplay = document.getElementById("puzzle");
     $("#getNewScrambleButton").on("click", getNewScramble);
+    $("#sendSolutionButton").on("click", sendSolution);
     fetchMoreScrambles();
 }
 

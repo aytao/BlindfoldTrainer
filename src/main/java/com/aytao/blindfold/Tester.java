@@ -10,6 +10,10 @@ package com.aytao.blindfold;
 
 import java.util.ArrayList;
 
+import com.aytao.blindfold.cube.Cube;
+import com.aytao.blindfold.cube.Move;
+import com.aytao.blindfold.cube.Sequence;
+
 public class Tester {
 
     /*

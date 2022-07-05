@@ -27,11 +27,28 @@
             camera-longitude="20"
             camera-latitude-limit="60"></twisty-player>
         <div id="puzzle"></div>
+        <div class="row">
+            <div class="col-sm-3">
+                <label for="edgeSwap">Edge Swaps:</label>
+            </div>
+            <div class="col-sm-3">
+                <input type="text" id="edgeSwap">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                <label for="cornerSwap">Corner Swaps:</label>
+            </div>
+            <div class="col-sm-3">
+                <input type="text" id="cornerSwap"><br><br>
+            </div>
+        </div>
+
         <button id="sendSolutionButton">
             Send Solution
         </button>
         <script src="index.js"></script>
-        
+
         <!-- Bootstrap -->
         <script
             src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"

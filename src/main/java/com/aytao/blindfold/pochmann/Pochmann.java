@@ -6,12 +6,18 @@
  *
  **************************************************************************** */
 
-package com.aytao.blindfold;
+package com.aytao.blindfold.pochmann;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Scanner;
+
+import com.aytao.blindfold.ResourceHandler;
+import com.aytao.blindfold.Solution;
+import com.aytao.blindfold.cube.Cube;
+import com.aytao.blindfold.cube.Move;
+import com.aytao.blindfold.cube.Sequence;
 
 public class Pochmann {
     public static class PochmannSolution implements Solution {
@@ -32,11 +38,10 @@ public class Pochmann {
         boolean parity;
 
         public PochmannSolution(ArrayList<Character> edgeOrder,
-                ArrayList<Character> cornerOrder) {
+                ArrayList<Character> cornerOrder, boolean parity) {
             this.edgeOrder = new ArrayList<>(edgeOrder);
             this.cornerOrder = new ArrayList<>(cornerOrder);
-            this.parity = edgeOrder.size() % 2 == 1;
-            assert (edgeOrder.size() % 2 == cornerOrder.size() % 2);
+            this.parity = parity;
         }
 
         public ArrayList<Move> toMoves() {
@@ -132,12 +137,9 @@ public class Pochmann {
 
     /*
      * Opens the file setupFile and retrieves all setup moves for each sticker.
-     * Returns
-     * a String array where the String at each index (where index 0 represents 'a')
-     * contains
-     * a sequence of moves that when executed, move the specified sticker to the
-     * target
-     * position to be swapped with the buffer.
+     * Returns a String array where the String at each index (where index 0 represents 'a')
+     * contains a sequence of moves that when executed, move the specified sticker to the
+     * target position to be swapped with the buffer.
      */
     private static String[] getSetUpMoves(String setupFileName, int numStickers) {
         String[] arr = new String[numStickers];
@@ -409,7 +411,7 @@ public class Pochmann {
             return false;
         Cube cube = new Cube();
         cube.execute(scramble);
-        PochmannSolution solution = new PochmannSolution(edgeOrder, cornerOrder);
+        PochmannSolution solution = new PochmannSolution(edgeOrder, cornerOrder, parity);
         if (!cube.validSolution(solution))
             return false;
 
@@ -418,9 +420,10 @@ public class Pochmann {
 
     /* Solves a cube using the Pochmann method and returns the solution used */
     public static PochmannSolution getSolution(Cube cube) {
-        PochmannSolution solution = new PochmannSolution(edgeOrder(cube), cornerOrder(cube));
+        ArrayList<Character> edges = edgeOrder(cube);
+        PochmannSolution solution = new PochmannSolution(edges, cornerOrder(cube), edges.size() % 2 == 1);
 
-        assert (cube.validSolution(solution.toMoves()));
+        assert (cube.validSolution(solution));
 
         return solution;
     }

@@ -6,9 +6,9 @@
  *
  **************************************************************************** */
 
-package com.aytao.blindfold;
+package com.aytao.blindfold.cube;
 
-enum CubeColor {
+public enum CubeColor {
     WHITE("W"),
     YELLOW("Y"),
     RED("R"),

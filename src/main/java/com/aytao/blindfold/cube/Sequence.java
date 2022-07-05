@@ -7,13 +7,15 @@
  *
  **************************************************************************** */
 
-package com.aytao.blindfold;
+package com.aytao.blindfold.cube;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.Stack;
+
+import com.aytao.blindfold.ResourceHandler;
 
 import org.worldcubeassociation.tnoodle.scrambles.Puzzle;
 import org.worldcubeassociation.tnoodle.scrambles.PuzzleRegistry;

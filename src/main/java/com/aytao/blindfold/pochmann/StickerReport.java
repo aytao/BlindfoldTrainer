@@ -7,12 +7,17 @@
  *
  **************************************************************************** */
 
-package com.aytao.blindfold;
+package com.aytao.blindfold.pochmann;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Scanner;
+
+import com.aytao.blindfold.ResourceHandler;
+import com.aytao.blindfold.cube.Cube;
+import com.aytao.blindfold.cube.CubeColor;
+import com.aytao.blindfold.cube.Move;
 
 public class StickerReport {
 

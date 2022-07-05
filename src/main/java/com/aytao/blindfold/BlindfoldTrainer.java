@@ -5,6 +5,7 @@ import spark.Spark;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.aytao.blindfold.cube.Sequence;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -61,7 +62,7 @@ public class BlindfoldTrainer {
                 num = Integer.parseInt(numStr);
                 num = Math.min(num, MAX_SCRAMBLES);
             } catch (Exception e) {
-                
+
             }
         }
         String[] scrambles = Sequence.getScrambleStrings(num);
@@ -70,9 +71,15 @@ public class BlindfoldTrainer {
                         SCRAMBLE_GSON.toJsonTree(scrambles)));
     }
 
+    private static String validateSolution(Request req, Response res) {
+        res.type("application/json");
+        System.out.println(req.body());
+        return "";
+    }
+
     public static void main(String[] args) {
         if (args.length != 1) {
-            System.err.println("Usage: java Penny port");
+            System.err.println("Usage: java BlindfoldTrainer port");
             System.exit(1);
         }
 
@@ -82,5 +89,7 @@ public class BlindfoldTrainer {
                 (req, res) -> index(req, res));
         Spark.get("/getScrambles",
                 (req, res) -> getScrambles(req, res));
+        Spark.post("/validateSolution",
+                (req, res) -> validateSolution(req, res));
     }
 }

@@ -7,9 +7,9 @@
  *
  **************************************************************************** */
 
-package com.aytao.blindfold;
+package com.aytao.blindfold.cube;
 
-enum Move {
+public enum Move {
     // WCA legal moves
     U, Up, U2,
     D, Dp, D2,
