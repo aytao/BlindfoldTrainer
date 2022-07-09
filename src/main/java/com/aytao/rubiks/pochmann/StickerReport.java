@@ -7,17 +7,17 @@
  *
  **************************************************************************** */
 
-package com.aytao.blindfold.pochmann;
+package com.aytao.rubiks.pochmann;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Scanner;
 
-import com.aytao.blindfold.ResourceHandler;
-import com.aytao.blindfold.cube.Cube;
-import com.aytao.blindfold.cube.CubeColor;
-import com.aytao.blindfold.cube.Move;
+import com.aytao.rubiks.ResourceHandler;
+import com.aytao.rubiks.cube.Cube;
+import com.aytao.rubiks.cube.CubeColor;
+import com.aytao.rubiks.cube.Move;
 
 public class StickerReport {
 

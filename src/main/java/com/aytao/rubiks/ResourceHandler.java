@@ -1,4 +1,4 @@
-package com.aytao.blindfold;
+package com.aytao.rubiks;
 
 import java.io.File;
 import java.net.URL;

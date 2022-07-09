@@ -7,7 +7,7 @@
  *
  **************************************************************************** */
 
-package com.aytao.blindfold.cube;
+package com.aytao.rubiks.cube;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -15,10 +15,10 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.Stack;
 
-import com.aytao.blindfold.ResourceHandler;
-
 import org.worldcubeassociation.tnoodle.scrambles.Puzzle;
 import org.worldcubeassociation.tnoodle.scrambles.PuzzleRegistry;
+
+import com.aytao.rubiks.ResourceHandler;
 
 public class Sequence {
     private static final Puzzle SCRAMBLER = PuzzleRegistry.THREE.getScrambler();

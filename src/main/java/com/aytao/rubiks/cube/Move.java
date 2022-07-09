@@ -7,7 +7,7 @@
  *
  **************************************************************************** */
 
-package com.aytao.blindfold.cube;
+package com.aytao.rubiks.cube;
 
 public enum Move {
     // WCA legal moves

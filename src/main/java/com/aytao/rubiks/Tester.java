@@ -6,13 +6,13 @@
  *
  **************************************************************************** */
 
-package com.aytao.blindfold;
+package com.aytao.rubiks;
 
 import java.util.ArrayList;
 
-import com.aytao.blindfold.cube.Cube;
-import com.aytao.blindfold.cube.Move;
-import com.aytao.blindfold.cube.Sequence;
+import com.aytao.rubiks.cube.Cube;
+import com.aytao.rubiks.cube.Move;
+import com.aytao.rubiks.cube.Sequence;
 
 public class Tester {
 

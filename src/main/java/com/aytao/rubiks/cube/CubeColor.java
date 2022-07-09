@@ -6,7 +6,7 @@
  *
  **************************************************************************** */
 
-package com.aytao.blindfold.cube;
+package com.aytao.rubiks.cube;
 
 public enum CubeColor {
     WHITE("W"),

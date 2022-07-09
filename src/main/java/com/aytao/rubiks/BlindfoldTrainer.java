@@ -1,4 +1,4 @@
-package com.aytao.blindfold;
+package com.aytao.rubiks;
 
 import spark.Spark;
 
@@ -7,9 +7,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.aytao.blindfold.cube.Move;
-import com.aytao.blindfold.cube.Sequence;
-import com.aytao.blindfold.pochmann.Pochmann.PochmannSolution;
+import com.aytao.rubiks.cube.Move;
+import com.aytao.rubiks.cube.Sequence;
+import com.aytao.rubiks.pochmann.Pochmann.PochmannSolution;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;

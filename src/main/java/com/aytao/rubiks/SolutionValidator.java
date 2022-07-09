@@ -1,4 +1,4 @@
-package com.aytao.blindfold;
+package com.aytao.rubiks;
 
 public class SolutionValidator {
     

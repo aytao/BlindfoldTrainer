@@ -7,13 +7,13 @@
  *
  **************************************************************************** */
 
-package com.aytao.blindfold.cube;
+package com.aytao.rubiks.cube;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
-import com.aytao.blindfold.Solution;
+import com.aytao.rubiks.Solution;
 
 public class Cube {
     // Dimension of the cube

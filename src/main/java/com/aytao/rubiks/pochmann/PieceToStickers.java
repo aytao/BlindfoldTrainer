@@ -8,16 +8,16 @@
  *
  **************************************************************************** */
 
-package com.aytao.blindfold.pochmann;
+package com.aytao.rubiks.pochmann;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
 
-import com.aytao.blindfold.ResourceHandler;
-import com.aytao.blindfold.cube.Cube;
-import com.aytao.blindfold.cube.CubeColor;
+import com.aytao.rubiks.ResourceHandler;
+import com.aytao.rubiks.cube.Cube;
+import com.aytao.rubiks.cube.CubeColor;
 
 public class PieceToStickers {
     private static final int NUM_EDGE_STICKERS = 24;

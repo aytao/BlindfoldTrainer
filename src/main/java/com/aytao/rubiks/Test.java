@@ -1,7 +1,7 @@
-package com.aytao.blindfold;
+package com.aytao.rubiks;
 
-import com.aytao.blindfold.cube.Cube;
-import com.aytao.blindfold.cube.Move;
+import com.aytao.rubiks.cube.Cube;
+import com.aytao.rubiks.cube.Move;
 
 public class Test {
     public static void main(String[] args) {

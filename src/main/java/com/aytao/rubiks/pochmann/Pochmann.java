@@ -6,18 +6,18 @@
  *
  **************************************************************************** */
 
-package com.aytao.blindfold.pochmann;
+package com.aytao.rubiks.pochmann;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Scanner;
 
-import com.aytao.blindfold.ResourceHandler;
-import com.aytao.blindfold.Solution;
-import com.aytao.blindfold.cube.Cube;
-import com.aytao.blindfold.cube.Move;
-import com.aytao.blindfold.cube.Sequence;
+import com.aytao.rubiks.ResourceHandler;
+import com.aytao.rubiks.Solution;
+import com.aytao.rubiks.cube.Cube;
+import com.aytao.rubiks.cube.Move;
+import com.aytao.rubiks.cube.Sequence;
 
 public class Pochmann {
     public static class PochmannSolution implements Solution {
