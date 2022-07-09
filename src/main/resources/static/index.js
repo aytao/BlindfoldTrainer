@@ -54,11 +54,22 @@ function getNewScramble() {
     $("#scramble").text(scramble);
 }
 
+function getSolutionFromInput() {
+    return {
+        scramble: currentScramble,
+        solution: {
+            edgeOrder: $("#edgeSwap").val(),
+            cornerOrder: $("#cornerSwap").val(),
+            parity: $("#parity").is(":checked"),
+        }
+    };
+}
+
 function sendSolution() {
     request = $.ajax({
         type: "POST",
         url: VALIDATE_SOLUTION_URL,
-        data: JSON.stringify({hello: "hi"}),
+        data: JSON.stringify(getSolutionFromInput()),
         dataType: "json",
         success: function (response) {
             if (response.status != "SUCCESS") {
@@ -77,6 +88,7 @@ function sendSolution() {
 
 function setup() {
     puzzleDisplay = document.getElementById("puzzle");
+    currentScramble = $("#scramble").text();
     $("#getNewScrambleButton").on("click", getNewScramble);
     $("#sendSolutionButton").on("click", sendSolution);
     fetchMoreScrambles();

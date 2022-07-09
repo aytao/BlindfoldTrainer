@@ -2,10 +2,14 @@ package com.aytao.blindfold;
 
 import spark.Spark;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.aytao.blindfold.cube.Move;
 import com.aytao.blindfold.cube.Sequence;
+import com.aytao.blindfold.pochmann.Pochmann.PochmannSolution;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -41,6 +45,34 @@ public class BlindfoldTrainer {
         }
     }
 
+    private static class ClientSolution {
+        private static class PochmannSolutionString {
+            private String edgeOrder;
+            private String cornerOrder;
+            private boolean parity;
+        }
+        private String scramble;
+        private PochmannSolutionString solution;
+
+        private static ArrayList<Character> toCharArrayList(String order) {
+            ArrayList<Character> ret = new ArrayList<>();
+            
+            for (char c : order.toCharArray()) {
+                if (Character.isLetter(c)) {
+                    ret.add(c);
+                }
+            }
+
+            return ret;
+        }
+
+        public PochmannSolution toPochmannSolution() {
+            ArrayList<Character> edgeArr = toCharArrayList(solution.edgeOrder);
+            ArrayList<Character> cornerArr = toCharArrayList(solution.cornerOrder);
+            return new PochmannSolution(edgeArr, cornerArr, solution.parity);
+        }
+    }
+
     private static final int DEFAULT_NUM_SCRAMBLES = 10;
     private static final int MAX_SCRAMBLES = 25;
     private static final Gson SCRAMBLE_GSON = new GsonBuilder().disableHtmlEscaping().create();
@@ -73,7 +105,16 @@ public class BlindfoldTrainer {
 
     private static String validateSolution(Request req, Response res) {
         res.type("application/json");
-        System.out.println(req.body());
+        String bodyStr = req.body();
+        ClientSolution clientSolution;
+        PochmannSolution pochmannSolution;
+        try{
+            clientSolution = new Gson().fromJson(bodyStr, ClientSolution.class);
+            pochmannSolution = clientSolution.toPochmannSolution();
+            System.out.println("What " + pochmannSolution.toMoves().size());
+        } catch (Exception exception) {
+            System.err.println("Hello?" + exception);
+        }
         return "";
     }
 

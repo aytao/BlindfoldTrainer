@@ -38,10 +38,47 @@ public class Pochmann {
         boolean parity;
 
         public PochmannSolution(ArrayList<Character> edgeOrder,
-                ArrayList<Character> cornerOrder, boolean parity) {
-            this.edgeOrder = new ArrayList<>(edgeOrder);
-            this.cornerOrder = new ArrayList<>(cornerOrder);
+                ArrayList<Character> cornerOrder, boolean parity) throws IllegalArgumentException {
+            checkOrderValidity(edgeOrder, cornerOrder);
+            this.edgeOrder = new ArrayList<>();
+            for (char c : edgeOrder) {
+                this.edgeOrder.add(Character.toLowerCase(c));
+            }
+            this.cornerOrder = new ArrayList<>();
+            for (char c : cornerOrder) {
+                this.cornerOrder.add(Character.toLowerCase(c));
+            }
             this.parity = parity;
+        }
+
+        private static void checkOrderValidity(ArrayList<Character> edgeOrder,
+                ArrayList<Character> cornerOrder) {
+            if (edgeOrder == null || cornerOrder == null)
+                throw new IllegalArgumentException("An order is null");
+            for (Character character : edgeOrder) {
+                if (character == null) {
+                    throw new IllegalArgumentException("A sticker provided in edgeOrder is null");
+                }
+                char c = Character.toLowerCase(character);
+                if (Character.toLowerCase(c) < 'a' || Character.toLowerCase(c) > 'x') {
+                    throw new IllegalArgumentException("Sticker " + c + "is not a valid sticker");
+                }
+                if (relatedEdgeStickers.get(EDGE_BUFFER).contains(c)) {
+                    throw new IllegalArgumentException("Cannot swap sticker " + c + " with buffer " + EDGE_BUFFER);
+                }
+            }
+            for (Character character : cornerOrder) {
+                if (character == null) {
+                    throw new IllegalArgumentException("A sticker provided in cornerOrder is null");
+                }
+                char c = Character.toLowerCase(character);
+                if (c < 'a' || c > 'x') {
+                    throw new IllegalArgumentException("Sticker " + character + "is not a valid sticker");
+                }
+                if (relatedCornerStickers.get(CORNER_BUFFER).contains(c)) {
+                    throw new IllegalArgumentException("Cannot swap sticker " + character + " with buffer " + CORNER_BUFFER);
+                }
+            }
         }
 
         public ArrayList<Move> toMoves() {
@@ -137,8 +174,10 @@ public class Pochmann {
 
     /*
      * Opens the file setupFile and retrieves all setup moves for each sticker.
-     * Returns a String array where the String at each index (where index 0 represents 'a')
-     * contains a sequence of moves that when executed, move the specified sticker to the
+     * Returns a String array where the String at each index (where index 0
+     * represents 'a')
+     * contains a sequence of moves that when executed, move the specified sticker
+     * to the
      * target position to be swapped with the buffer.
      */
     private static String[] getSetUpMoves(String setupFileName, int numStickers) {

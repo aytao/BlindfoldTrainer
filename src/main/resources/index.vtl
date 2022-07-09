@@ -25,7 +25,8 @@
             control-panel="none"
             camera-latitude="25"
             camera-longitude="20"
-            camera-latitude-limit="60"></twisty-player>
+            camera-latitude-limit="60"
+            tempo-scale="10"></twisty-player>
         <div id="puzzle"></div>
         <div class="row">
             <div class="col-sm-3">
@@ -40,9 +41,18 @@
                 <label for="cornerSwap">Corner Swaps:</label>
             </div>
             <div class="col-sm-3">
-                <input type="text" id="cornerSwap"><br><br>
+                <input type="text" id="cornerSwap">
             </div>
         </div>
+        <div class="row">
+            <div class="col-sm-3">
+                <label for="parity">Parity:</label>
+            </div>
+            <div class="col-sm-3">
+                <input type="checkbox" id="parity">
+            </div>
+        </div>
+        <br><br>
 
         <button id="sendSolutionButton">
             Send Solution
