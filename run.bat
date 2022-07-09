@@ -1,1 +1,1 @@
-mvn compile && mvn exec:java -e -Dexec.mainClass="com.aytao.blindfold.BlindfoldTrainer" -Dexec.args="80"
+mvn compile && mvn exec:java -e -Dexec.mainClass="com.aytao.rubiks.BlindfoldTrainer" -Dexec.args="80"

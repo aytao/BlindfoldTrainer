@@ -111,9 +111,9 @@ public class BlindfoldTrainer {
         try{
             clientSolution = new Gson().fromJson(bodyStr, ClientSolution.class);
             pochmannSolution = clientSolution.toPochmannSolution();
-            System.out.println("What " + pochmannSolution.toMoves().size());
+            System.out.println("Solution length: " + pochmannSolution.toMoves().size());
         } catch (Exception exception) {
-            System.err.println("Hello?" + exception);
+            System.err.println(exception);
         }
         return "";
     }
