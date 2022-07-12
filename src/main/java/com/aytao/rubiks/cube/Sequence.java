@@ -66,7 +66,7 @@ public class Sequence {
      */
     public static ArrayList<Move> getSequence(String movesStr) {
         ArrayList<Move> moves = new ArrayList<>();
-        if (movesStr.equals("")) {
+        if (movesStr == null || movesStr.equals("")) {
             return moves;
         }
 

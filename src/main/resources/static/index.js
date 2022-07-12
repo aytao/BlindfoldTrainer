@@ -1,13 +1,16 @@
 'use strict';
 
 let puzzleDisplay;
+let exampleSolutionCube;
 let scrambles = [];
 let currentScramble = null;
 let request;
+let exampleSolutionRequest;
 let waiting = false;
 const MIN_SCRAMBLES = 5;
 const MORE_SCRAMBLES_URL = "/getScrambles";
 const VALIDATE_SOLUTION_URL = "/validateSolution";
+const EXAMPLE_SOLUTION_URL = "/exampleSolution";
 
 function fetchMoreScrambles() {
     request = $.ajax({
@@ -65,6 +68,21 @@ function getSolutionFromInput() {
     };
 }
 
+function addBanner(message, success) {
+    let banner = $('<div>', {
+        text: message
+    });
+    banner.addClass(success ? "alert alert-success" : "alert alert-warning");
+    banner.appendTo("#banner");
+
+    setTimeout(function () {
+        banner.hide(1000);
+        setTimeout(function () {
+            banner.remove()
+        }, 1000);
+    }, 3000);
+}
+
 function sendSolution() {
     request = $.ajax({
         type: "POST",
@@ -72,10 +90,14 @@ function sendSolution() {
         data: JSON.stringify(getSolutionFromInput()),
         dataType: "json",
         success: function (response) {
+            console.log(response);
             if (response.status != "SUCCESS") {
                 // TODO: HANDLE ERROR
                 return;
             }
+            let success = response.data.status == "SUCCESS";
+            addBanner(success ? "Success!" : "Incorrect", success);
+
             request = null;
         }, error: function(response) {
             // TODO: HANDLE ERROR!
@@ -86,11 +108,40 @@ function sendSolution() {
     });
 }
 
+function getExampleSolution() {
+    let requestedSolutionScramble = currentScramble;
+    request = $.ajax({
+        type: "GET",
+        url: EXAMPLE_SOLUTION_URL + "?scramble=" + currentScramble,
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            if (response.status != "SUCCESS") {
+                // TODO: HANDLE ERROR
+                return;
+            }
+            if (response.data && response.data.solution) {
+                $("#exampleSolution").show();
+                exampleSolutionCube.alg = response.data.solution;
+                exampleSolutionCube.play();
+            }
+
+            exampleSolutionRequest = null;
+        }, error: function(response) {
+            // TODO: HANDLE ERROR!
+            console.log(response);
+            exampleSolutionRequest = null;
+        }
+    });
+}
+
 function setup() {
     puzzleDisplay = document.getElementById("puzzle");
     currentScramble = $("#scramble").text();
     $("#getNewScrambleButton").on("click", getNewScramble);
     $("#sendSolutionButton").on("click", sendSolution);
+    $("#getExampleSolution").on("click", getExampleSolution);
+    exampleSolutionCube = document.getElementById("exampleSolutionCube");
     fetchMoreScrambles();
 }
 
