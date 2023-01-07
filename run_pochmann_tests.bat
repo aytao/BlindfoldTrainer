@@ -1,0 +1,1 @@
+mvn compile && mvn exec:java -e -Dexec.mainClass="com.aytao.rubiks.pochmann.Pochmann" -Dexec.args="100"

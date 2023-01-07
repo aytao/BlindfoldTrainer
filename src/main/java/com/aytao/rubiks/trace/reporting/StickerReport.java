@@ -18,10 +18,9 @@ import com.aytao.rubiks.ResourceHandler;
 import com.aytao.rubiks.cube.Cube;
 import com.aytao.rubiks.cube.CubeColor;
 import com.aytao.rubiks.cube.Move;
+import com.aytao.rubiks.utils.Defines;
 
 public class StickerReport {
-
-  private static final int NUM_STICKERS = 24;
   private static final int[][] edgeCoords;
   private static final HashSet<HashSet<Character>> edgePieces;
 
@@ -36,12 +35,13 @@ public class StickerReport {
   }
 
   /*
-   * Opens the csv file labelsFile which should have NUM_STICKERS number of lines,
+   * Opens the csv file labelsFile which should have Defines.NUM_SPEFFZ_LETTERS
+   * number of lines,
    * and uses the information to return a 2d mapping of sticker names to
    * coordinates
    */
   private static int[][] getCoords(String labelsFileName) {
-    int[][] coords = new int[NUM_STICKERS][];
+    int[][] coords = new int[Defines.NUM_SPEFFZ_LETTERS][];
     try (Scanner in = new Scanner(ResourceHandler.getFile(labelsFileName), "utf-8")) {
       while (in.hasNext()) {
         String line = in.nextLine();
@@ -95,14 +95,14 @@ public class StickerReport {
    * that is in that position.
    */
   public static char[] edgeReport(Cube cube) {
-    CubeColor[] colors = new CubeColor[NUM_STICKERS];
+    CubeColor[] colors = new CubeColor[Defines.NUM_SPEFFZ_LETTERS];
 
-    for (int i = 0; i < NUM_STICKERS; i++) {
+    for (int i = 0; i < Defines.NUM_SPEFFZ_LETTERS; i++) {
       int[] coord = edgeCoords[i];
       colors[i] = cube.getStickerAt(coord[0], coord[1], coord[2]);
     }
 
-    char[] report = new char[NUM_STICKERS];
+    char[] report = new char[Defines.NUM_SPEFFZ_LETTERS];
 
     for (HashSet<Character> pieceStickers : edgePieces) {
       HashSet<CubeColor> piece = new HashSet<>();
@@ -132,14 +132,14 @@ public class StickerReport {
    * that is in that position.
    */
   public static char[] cornerReport(Cube cube) {
-    CubeColor[] colors = new CubeColor[NUM_STICKERS];
+    CubeColor[] colors = new CubeColor[Defines.NUM_SPEFFZ_LETTERS];
 
-    for (int i = 0; i < NUM_STICKERS; i++) {
+    for (int i = 0; i < Defines.NUM_SPEFFZ_LETTERS; i++) {
       int[] coord = cornerCoords[i];
       colors[i] = cube.getStickerAt(coord[0], coord[1], coord[2]);
     }
 
-    char[] report = new char[NUM_STICKERS];
+    char[] report = new char[Defines.NUM_SPEFFZ_LETTERS];
 
     for (HashSet<Character> pieceStickers : cornerPieces) {
       HashSet<CubeColor> piece = new HashSet<>();
@@ -182,6 +182,7 @@ public class StickerReport {
 
   /* Performs some very simple unit testing */
   public static void main(String[] args) {
+    /* TODO: Better testing */
     Cube cube = new Cube();
     cube.scrambleOrientation();
 

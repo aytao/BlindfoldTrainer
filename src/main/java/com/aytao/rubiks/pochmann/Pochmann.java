@@ -18,6 +18,7 @@ import com.aytao.rubiks.Solution;
 import com.aytao.rubiks.cube.Cube;
 import com.aytao.rubiks.cube.Move;
 import com.aytao.rubiks.cube.Sequence;
+import com.aytao.rubiks.trace.CycleTracer;
 import com.aytao.rubiks.trace.reporting.StickerReport;
 
 public class Pochmann {
@@ -155,6 +156,7 @@ public class Pochmann {
   private static final String[] CORNER_SETUPS;
 
   /* Maps a specific sticker to a set of all stickers on the same piece */
+  /* TODO: Move to utils */
   private static final HashMap<Character, HashSet<Character>> relatedEdgeStickers;
   private static final HashMap<Character, HashSet<Character>> relatedCornerStickers;
 
@@ -233,190 +235,6 @@ public class Pochmann {
   }
 
   /*******************************************************
-   * Order methods
-   *******************************************************/
-
-  /* Returns the order in which edge stickers should be swapped with the buffer */
-  public static ArrayList<Character> edgeOrder(Cube cube) {
-    char[] edgeReport = StickerReport.edgeReport(cube);
-
-    ArrayList<Character> order = new ArrayList<>();
-    boolean[] fixed = new boolean[NUM_EDGE_STICKERS]; // keeps track of already addressed stickers
-
-    // account for flipped and solved edges
-    ArrayList<Character> flippedEdges = new ArrayList<>();
-    for (int i = 0; i < edgeReport.length; i++) {
-      if (fixed[i]) {
-        continue;
-      }
-      HashSet<Character> set = relatedEdgeStickers.get((char) (i + 'a'));
-
-      // correctly oriented edges
-      if (edgeReport[i] == i + 'a') {
-        for (char c : set) {
-          fixed[c - 'a'] = true;
-        }
-      } // edges in the correct position but flipped - don't flip buffer piece
-      else if (set.contains(edgeReport[i]) && !set.contains(EDGE_BUFFER)) {
-        flippedEdges.add((char) (i + 'a'));
-        flippedEdges.add(edgeReport[i]);
-
-        for (char c : set) {
-          fixed[c - 'a'] = true;
-        }
-      }
-    }
-
-    // First cycle (from buffer)
-    char location = edgeReport[EDGE_BUFFER - 'a'];
-    HashSet<Character> startStickers = relatedEdgeStickers.get(EDGE_BUFFER);
-    // Only executes if buffer isn't already in correct position
-    if (!fixed[EDGE_BUFFER - 'a']) {
-      while (!startStickers.contains(location)) {
-        HashSet<Character> set = relatedEdgeStickers.get(location);
-        for (char c : set) {
-          fixed[c - 'a'] = true;
-        }
-        order.add(location);
-        location = edgeReport[location - 'a'];
-      }
-      for (char c : startStickers) {
-        fixed[c - 'a'] = true;
-      }
-    }
-
-    // subsequent cycles
-    while (true) {
-      // find new start, and break out of while loop if all edges are accounted for
-      char newStart = 'b';
-      int j;
-      for (j = 0; j < fixed.length; j++) {
-        if (!fixed[j]) {
-          newStart = (char) (j + 'a');
-          startStickers = relatedEdgeStickers.get(newStart);
-          break;
-        }
-      }
-      if (j == fixed.length) {
-        break;
-      }
-
-      // non-buffer cycles include beginning and ending stickers
-      order.add(newStart);
-      location = edgeReport[newStart - 'a'];
-      // find cycle from new start
-      while (!startStickers.contains(location)) {
-        HashSet<Character> set = relatedEdgeStickers.get(location);
-        for (char c : set) {
-          fixed[c - 'a'] = true;
-        }
-        order.add(location);
-        location = edgeReport[location - 'a'];
-      }
-      for (char c : startStickers) {
-        fixed[c - 'a'] = true;
-      }
-      // non-buffer cycles include beginning and ending stickers
-      order.add(location);
-    }
-
-    // flipped edges must be fixed after cycles
-    order.addAll(flippedEdges);
-    return order;
-  }
-
-  /*
-   * Returns the order in which corner stickers should be swapped with the buffer
-   */
-  public static ArrayList<Character> cornerOrder(Cube cube) {
-    char[] cornerReport = StickerReport.cornerReport(cube);
-
-    ArrayList<Character> order = new ArrayList<>();
-    boolean[] fixed = new boolean[NUM_CORNER_STICKERS]; // keeps track of already addressed stickers
-
-    // account for flipped and solved edges
-    ArrayList<Character> flippedCorners = new ArrayList<>();
-    for (int i = 0; i < cornerReport.length; i++) {
-      if (fixed[i]) {
-        continue;
-      }
-      HashSet<Character> set = relatedCornerStickers.get((char) (i + 'a'));
-
-      // correctly oriented corners
-      if (cornerReport[i] == i + 'a') {
-        for (char c : set) {
-          fixed[c - 'a'] = true;
-        }
-      } // corners in the correct position but twisted - don't twist buffer
-      else if (set.contains(cornerReport[i]) && !set.contains(CORNER_BUFFER)) {
-        flippedCorners.add((char) (i + 'a'));
-        flippedCorners.add(cornerReport[i]);
-
-        for (char c : set) {
-          fixed[c - 'a'] = true;
-        }
-      }
-    }
-
-    // First cycle (from buffer)
-    char location = cornerReport[CORNER_BUFFER - 'a'];
-    HashSet<Character> startStickers = relatedCornerStickers.get(CORNER_BUFFER);
-    // Only executes if buffer isn't already in correct position
-    if (!fixed[CORNER_BUFFER - 'a']) {
-      while (!startStickers.contains(location)) {
-        HashSet<Character> set = relatedCornerStickers.get(location);
-        for (char c : set) {
-          fixed[c - 'a'] = true;
-        }
-        order.add(location);
-        location = cornerReport[location - 'a'];
-      }
-      for (char c : startStickers) {
-        fixed[c - 'a'] = true;
-      }
-    }
-
-    // subsequent cycles
-    while (true) {
-      // find new start, and break out of while loop if all edges are accounted for
-      char newStart = 'e';
-      int j;
-      for (j = 0; j < fixed.length; j++) {
-        if (!fixed[j]) {
-          newStart = (char) (j + 'a');
-          startStickers = relatedCornerStickers.get(newStart);
-          break;
-        }
-      }
-      if (j == fixed.length) {
-        break;
-      }
-
-      // non-buffer cycles include beginning and ending stickers
-      order.add(newStart);
-      location = cornerReport[newStart - 'a'];
-      // find cycle starting from new start
-      while (!startStickers.contains(location)) {
-        HashSet<Character> set = relatedCornerStickers.get(location);
-        for (char c : set) {
-          fixed[c - 'a'] = true;
-        }
-        order.add(location);
-        location = cornerReport[location - 'a'];
-      }
-      for (char c : startStickers) {
-        fixed[c - 'a'] = true;
-      }
-      // non-buffer cycles include beginning and ending stickers
-      order.add(location);
-    }
-
-    // twisted edges must be fixed after cycles
-    order.addAll(flippedCorners);
-    return order;
-  }
-
-  /*******************************************************
    * Solution methods
    *******************************************************/
   /*
@@ -440,8 +258,9 @@ public class Pochmann {
 
   /* Solves a cube using the Pochmann method and returns the solution used */
   public static PochmannSolution getSolution(Cube cube) {
-    ArrayList<Character> edges = edgeOrder(cube);
-    PochmannSolution solution = new PochmannSolution(edges, cornerOrder(cube), edges.size() % 2 == 1);
+    ArrayList<Character> edges = CycleTracer.edgeOrder(cube, EDGE_BUFFER);
+    ArrayList<Character> corners = CycleTracer.cornerOrder(cube, CORNER_BUFFER);
+    PochmannSolution solution = new PochmannSolution(edges, corners, edges.size() % 2 == 1);
 
     assert (cube.validSolution(solution));
 
