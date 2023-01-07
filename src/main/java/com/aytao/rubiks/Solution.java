@@ -5,5 +5,5 @@ import java.util.ArrayList;
 import com.aytao.rubiks.cube.Move;
 
 public interface Solution {
-    public ArrayList<Move> toMoves();
+  public ArrayList<Move> toMoves();
 }
