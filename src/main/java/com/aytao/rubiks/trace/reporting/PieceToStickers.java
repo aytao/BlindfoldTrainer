@@ -20,8 +20,7 @@ import com.aytao.rubiks.cube.Cube;
 import com.aytao.rubiks.cube.CubeColor;
 
 public class PieceToStickers {
-  private static final int NUM_EDGE_STICKERS = 24;
-  private static final int NUM_CORNER_STICKERS = 24;
+  private static final int NUM_STICKERS = 24;
 
   private final static CubeColor[][][] SOLVED_STICKERS;
   private final static HashMap<Set<CubeColor>, HashMap<CubeColor, Character>> edges;
@@ -33,24 +32,24 @@ public class PieceToStickers {
     SOLVED_STICKERS = cube.getStickers();
 
     edges = getPieceMap("Labels/EdgeLabels.txt",
-        "Connections/EdgeConnections.txt", NUM_EDGE_STICKERS);
+        "Connections/EdgeConnections.txt");
 
     corners = getPieceMap("Labels/CornerLabels.txt",
-        "Connections/CornerConnections.txt", NUM_CORNER_STICKERS);
+        "Connections/CornerConnections.txt");
   }
 
   /*
    * Takes the labels for each coordinate labelsFile, the set of connected
-   * stickers
-   * connectionsFile, and the number of stickers to be consider numStickers.
-   * Builds
-   * a hashmap which maps
+   * stickers connectionsFile, and the number of stickers to be consider
+   * numStickers. Builds a hashmap which maps pieces, represented as a set of
+   * CubeColors, to a map which maps each color on that respective piece to the
+   * correct character.
    */
   private static HashMap<Set<CubeColor>, HashMap<CubeColor, Character>> getPieceMap(String labelsFileName,
-      String connectionsFileName, int numStickers) {
+      String connectionsFileName) {
     HashMap<Set<CubeColor>, HashMap<CubeColor, Character>> pieceToStickersMap = new HashMap<>();
 
-    CubeColor[] colors = new CubeColor[numStickers];
+    CubeColor[] colors = new CubeColor[NUM_STICKERS];
     try (Scanner labelsIn = new Scanner(ResourceHandler.getFile(labelsFileName), "utf-8")) {
       while (labelsIn.hasNext()) {
         String line = labelsIn.nextLine();

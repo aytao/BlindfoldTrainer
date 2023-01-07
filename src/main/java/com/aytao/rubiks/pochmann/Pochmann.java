@@ -239,7 +239,6 @@ public class Pochmann {
   /* Returns the order in which edge stickers should be swapped with the buffer */
   public static ArrayList<Character> edgeOrder(Cube cube) {
     char[] edgeReport = StickerReport.edgeReport(cube);
-    assert (validateReport(edgeReport));
 
     ArrayList<Character> order = new ArrayList<>();
     boolean[] fixed = new boolean[NUM_EDGE_STICKERS]; // keeps track of already addressed stickers
@@ -331,7 +330,6 @@ public class Pochmann {
    */
   public static ArrayList<Character> cornerOrder(Cube cube) {
     char[] cornerReport = StickerReport.cornerReport(cube);
-    assert (validateReport(cornerReport));
 
     ArrayList<Character> order = new ArrayList<>();
     boolean[] fixed = new boolean[NUM_CORNER_STICKERS]; // keeps track of already addressed stickers
@@ -416,24 +414,6 @@ public class Pochmann {
     // twisted edges must be fixed after cycles
     order.addAll(flippedCorners);
     return order;
-  }
-
-  /* Report should contain exactly one of each letter */
-  private static boolean validateReport(char[] report) {
-    boolean[] seen = new boolean[report.length];
-
-    for (char c : report) {
-      if (c < 'a' || c > 'x') {
-        return false;
-      }
-      if (seen[c - 'a']) {
-        return false;
-      } else {
-        seen[c - 'a'] = true;
-      }
-    }
-
-    return true;
   }
 
   /*******************************************************

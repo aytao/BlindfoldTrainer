@@ -21,8 +21,7 @@ import com.aytao.rubiks.cube.Move;
 
 public class StickerReport {
 
-  private static final int NUM_EDGE_STICKERS = 24;
-  private static final int NUM_CORNER_STICKERS = 24;
+  private static final int NUM_STICKERS = 24;
   private static final int[][] edgeCoords;
   private static final HashSet<HashSet<Character>> edgePieces;
 
@@ -30,19 +29,19 @@ public class StickerReport {
   private static final HashSet<HashSet<Character>> cornerPieces;
 
   static {
-    edgeCoords = getCoords("Labels/EdgeLabels.txt", NUM_EDGE_STICKERS);
-    cornerCoords = getCoords("Labels/CornerLabels.txt", NUM_CORNER_STICKERS);
+    edgeCoords = getCoords("Labels/EdgeLabels.txt");
+    cornerCoords = getCoords("Labels/CornerLabels.txt");
     edgePieces = getPieces("Connections/EdgeConnections.txt");
     cornerPieces = getPieces("Connections/CornerConnections.txt");
   }
 
   /*
-   * Opens the csv file labelsFile which should have numStickers number of lines,
+   * Opens the csv file labelsFile which should have NUM_STICKERS number of lines,
    * and uses the information to return a 2d mapping of sticker names to
    * coordinates
    */
-  private static int[][] getCoords(String labelsFileName, int numStickers) {
-    int[][] coords = new int[numStickers][];
+  private static int[][] getCoords(String labelsFileName) {
+    int[][] coords = new int[NUM_STICKERS][];
     try (Scanner in = new Scanner(ResourceHandler.getFile(labelsFileName), "utf-8")) {
       while (in.hasNext()) {
         String line = in.nextLine();
@@ -91,21 +90,19 @@ public class StickerReport {
 
   /*
    * Given a Cube object cube, returns a char[] that represents the current state
-   * of
-   * each edge-piece sticker on the cube. The array is indexed with 'a' at
-   * position 0,
-   * and the characters in the array represent the current sticker that is in that
-   * position.
+   * of each edge-piece sticker on the cube. The array is indexed with 'a' at
+   * position 0, and the characters in the array represent the current sticker
+   * that is in that position.
    */
   public static char[] edgeReport(Cube cube) {
-    CubeColor[] colors = new CubeColor[NUM_EDGE_STICKERS];
+    CubeColor[] colors = new CubeColor[NUM_STICKERS];
 
-    for (int i = 0; i < NUM_EDGE_STICKERS; i++) {
+    for (int i = 0; i < NUM_STICKERS; i++) {
       int[] coord = edgeCoords[i];
       colors[i] = cube.getStickerAt(coord[0], coord[1], coord[2]);
     }
 
-    char[] report = new char[NUM_EDGE_STICKERS];
+    char[] report = new char[NUM_STICKERS];
 
     for (HashSet<Character> pieceStickers : edgePieces) {
       HashSet<CubeColor> piece = new HashSet<>();
@@ -124,26 +121,25 @@ public class StickerReport {
         report[sticker - 'a'] = map.get(colors[sticker - 'a']);
       }
     }
+    assert (validateReport(report));
     return report;
   }
 
   /*
    * Given a Cube object cube, returns a char[] that represents the current state
-   * of
-   * each corner-piece sticker on the cube. The array is indexed with 'a' at
-   * position 0,
-   * and the characters in the array represent the current sticker that is in that
-   * position.
+   * of each corner-piece sticker on the cube. The array is indexed with 'a' at
+   * position 0, and the characters in the array represent the current sticker
+   * that is in that position.
    */
   public static char[] cornerReport(Cube cube) {
-    CubeColor[] colors = new CubeColor[NUM_CORNER_STICKERS];
+    CubeColor[] colors = new CubeColor[NUM_STICKERS];
 
-    for (int i = 0; i < NUM_CORNER_STICKERS; i++) {
+    for (int i = 0; i < NUM_STICKERS; i++) {
       int[] coord = cornerCoords[i];
       colors[i] = cube.getStickerAt(coord[0], coord[1], coord[2]);
     }
 
-    char[] report = new char[NUM_CORNER_STICKERS];
+    char[] report = new char[NUM_STICKERS];
 
     for (HashSet<Character> pieceStickers : cornerPieces) {
       HashSet<CubeColor> piece = new HashSet<>();
@@ -162,7 +158,26 @@ public class StickerReport {
         report[sticker - 'a'] = map.get(colors[sticker - 'a']);
       }
     }
+    assert (validateReport(report));
     return report;
+  }
+
+  /* Report should contain exactly one of each letter */
+  private static boolean validateReport(char[] report) {
+    boolean[] seen = new boolean[report.length];
+
+    for (char c : report) {
+      if (c < 'a' || c > 'x') {
+        return false;
+      }
+      if (seen[c - 'a']) {
+        return false;
+      } else {
+        seen[c - 'a'] = true;
+      }
+    }
+
+    return true;
   }
 
   /* Performs some very simple unit testing */
