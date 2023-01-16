@@ -1,6 +1,6 @@
-- Move away from all duplicate file reads. Aggregate into utils
 - Write better unit testing
 - Fix modules system
+- Remove dependency on implementation vs interface (i.e. returning ArrayList instead of List)
 
 Comm parsing:
 - Allow : in plain string (unbracketed)

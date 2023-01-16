@@ -9,8 +9,6 @@
 package com.aytao.rubiks.pochmann;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Scanner;
 
 import com.aytao.rubiks.ResourceHandler;
@@ -18,6 +16,7 @@ import com.aytao.rubiks.cube.Cube;
 import com.aytao.rubiks.cube.Move;
 import com.aytao.rubiks.cube.Sequence;
 import com.aytao.rubiks.cube.Solution;
+import com.aytao.rubiks.cube.SpeffzUtils;
 import com.aytao.rubiks.trace.CycleTracer;
 
 public class Pochmann {
@@ -64,7 +63,7 @@ public class Pochmann {
         if (Character.toLowerCase(c) < 'a' || Character.toLowerCase(c) > 'x') {
           throw new IllegalArgumentException("Sticker " + c + "is not a valid sticker");
         }
-        if (relatedEdgeStickers.get(EDGE_BUFFER).contains(c)) {
+        if (SpeffzUtils.getRelatedEdgeStickersSet(EDGE_BUFFER).contains(c)) {
           throw new IllegalArgumentException("Cannot swap sticker " + c + " with buffer " + EDGE_BUFFER);
         }
       }
@@ -76,7 +75,7 @@ public class Pochmann {
         if (c < 'a' || c > 'x') {
           throw new IllegalArgumentException("Sticker " + character + "is not a valid sticker");
         }
-        if (relatedCornerStickers.get(CORNER_BUFFER).contains(c)) {
+        if (SpeffzUtils.getRelatedCornerStickersSet(CORNER_BUFFER).contains(c)) {
           throw new IllegalArgumentException("Cannot swap sticker " + character + " with buffer " + CORNER_BUFFER);
         }
       }
@@ -106,7 +105,7 @@ public class Pochmann {
     /* Swap given edge sticker with buffer */
     private static void swapBufferWithEdge(ArrayList<Move> solution, char c) {
       assert (c >= 'a' && c <= 'x');
-      assert (!relatedEdgeStickers.get(EDGE_BUFFER).contains(c));
+      assert (!SpeffzUtils.getRelatedEdgeStickersSet(EDGE_BUFFER).contains(c));
       assert (EDGE_SETUPS[c - 'a'] != null);
 
       ArrayList<Move> setup = Sequence.getSequence(EDGE_SETUPS[c - 'a']);
@@ -129,7 +128,7 @@ public class Pochmann {
     /* Swap given edge sticker with buffer */
     private static void swapBufferWithCorner(ArrayList<Move> solution, char c) {
       assert (c >= 'a' && c <= 'x');
-      assert (!relatedCornerStickers.get(CORNER_BUFFER).contains(c));
+      assert (!SpeffzUtils.getRelatedCornerStickersSet(CORNER_BUFFER).contains(c));
       assert (CORNER_SETUPS[c - 'a'] != null);
 
       ArrayList<Move> setup = Sequence.getSequence(CORNER_SETUPS[c - 'a']);
@@ -154,11 +153,6 @@ public class Pochmann {
   private static final String[] EDGE_SETUPS;
   private static final String[] CORNER_SETUPS;
 
-  /* Maps a specific sticker to a set of all stickers on the same piece */
-  /* TODO: Move to utils */
-  private static final HashMap<Character, HashSet<Character>> relatedEdgeStickers;
-  private static final HashMap<Character, HashSet<Character>> relatedCornerStickers;
-
   /*
    * The buffers used for the edge swap (T perm) and corner swap (modified Y perm)
    * sequences
@@ -169,9 +163,6 @@ public class Pochmann {
   static {
     EDGE_SETUPS = getSetUpMoves("Setup Moves/EdgeSetUpMoves.txt", NUM_EDGE_STICKERS);
     CORNER_SETUPS = getSetUpMoves("Setup Moves/CornerSetUpMoves.txt", NUM_CORNER_STICKERS);
-
-    relatedEdgeStickers = getRelatedStickers("Connections/EdgeConnections.txt");
-    relatedCornerStickers = getRelatedStickers("Connections/CornerConnections.txt");
   }
 
   /*
@@ -205,32 +196,6 @@ public class Pochmann {
     }
 
     return arr;
-  }
-
-  /*
-   * Opens the file connectionsFile and retrieves all related stickers for each
-   * piece. Returns
-   * a HashMap where each sticker maps to a set of all stickers on the same piece
-   */
-  private static HashMap<Character, HashSet<Character>> getRelatedStickers(String connectionsFileName) {
-    HashMap<Character, HashSet<Character>> map = new HashMap<>();
-
-    try (Scanner in = new Scanner(ResourceHandler.getFile(connectionsFileName), "utf-8")) {
-      while (in.hasNext()) {
-        String line = in.nextLine();
-        String[] stickers = line.split(",");
-
-        HashSet<Character> set = new HashSet<>();
-        for (String sticker : stickers) {
-          map.put(sticker.charAt(0), set);
-          set.add(sticker.charAt(0));
-        }
-      }
-    } catch (Exception e) {
-      throw new RuntimeException("Error opening file: '" + connectionsFileName + "'");
-    }
-
-    return map;
   }
 
   /*******************************************************
@@ -309,7 +274,7 @@ public class Pochmann {
       ArrayList<Move> solutionMoves = solution.toSequence();
       boolean valid = checkValidity(scramble, solution.edgeOrder,
           solution.cornerOrder, solution.parity);
-      if (!cube.validSolution(solutionMoves) || !valid) {
+      if (!valid || !cube.validSolution(solution) || !cube.validSolution(solutionMoves)) {
         handleFailure(scramble, solutionMoves);
         return;
       }

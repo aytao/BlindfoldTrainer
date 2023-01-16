@@ -7,8 +7,6 @@
  *
  **************************************************************************** */
 
-/* TODO: Return deep copies! */
-
 package com.aytao.rubiks.cube;
 
 import java.util.Arrays;
@@ -36,10 +34,9 @@ public class SpeffzUtils {
   private final static Map<Character, Set<Character>> relatedCornerStickers;
 
   /*****************************************************************************
-   * 
-   * INITIALIZERS
-   * 
+   * Initializers
    ****************************************************************************/
+
   static {
     Cube cube = new Cube();
     cube.scrambleOrientation();
@@ -60,9 +57,8 @@ public class SpeffzUtils {
 
   /*
    * Opens the csv file labelsFile which should have Defines.NUM_SPEFFZ_LETTERS
-   * number of lines,
-   * and uses the information to return a 2d mapping of sticker names to
-   * coordinates
+   * number of lines, and uses the information to return a 2d mapping of sticker
+   * names to coordinates.
    */
   private static int[][] getCoords(String labelsFileName) {
     int[][] coords = new int[Defines.NUM_SPEFFZ_LETTERS][];
@@ -146,6 +142,31 @@ public class SpeffzUtils {
     return map;
   }
 
+  /*****************************************************************************
+   * Related Sticker Sets
+   ****************************************************************************/
+
+  private static Set<Character> getRelatedSticker(char c, Map<Character, Set<Character>> relatedStickers) {
+    c = Character.toLowerCase(c);
+    if (!isValidSpeffzLetter(c)) {
+      throw new IllegalArgumentException("Letter " + c + " is not a valid Speffz letter");
+    }
+
+    return new HashSet<>(relatedStickers.get(c));
+  }
+
+  public static Set<Character> getRelatedEdgeStickersSet(char c) {
+    return getRelatedSticker(c, relatedEdgeStickers);
+  }
+
+  public static Set<Character> getRelatedCornerStickersSet(char c) {
+    return getRelatedSticker(c, relatedCornerStickers);
+  }
+
+  /*****************************************************************************
+   * Report Methods
+   ****************************************************************************/
+
   /*
    * Given a Cube object cube, returns a char[] that represents the current state
    * of each edge-piece sticker on the cube. The array is indexed with 'a' at
@@ -179,7 +200,7 @@ public class SpeffzUtils {
         report[sticker - 'a'] = map.get(colors[sticker - 'a']);
       }
     }
-    assert (validateReport(report));
+    assert (isValidReport(report));
     return report;
   }
 
@@ -216,16 +237,25 @@ public class SpeffzUtils {
         report[sticker - 'a'] = map.get(colors[sticker - 'a']);
       }
     }
-    assert (validateReport(report));
+    assert (isValidReport(report));
     return report;
   }
 
+  /*****************************************************************************
+   * Validation helpers
+   ****************************************************************************/
+
+  /* Letter must be between 'a' and 'x', inclusive */
+  private static boolean isValidSpeffzLetter(char c) {
+    return c >= 'a' && c <= 'x';
+  }
+
   /* Report should contain exactly one of each letter */
-  private static boolean validateReport(char[] report) {
+  private static boolean isValidReport(char[] report) {
     boolean[] seen = new boolean[report.length];
 
     for (char c : report) {
-      if (c < 'a' || c > 'x') {
+      if (!isValidSpeffzLetter(c)) {
         return false;
       }
       if (seen[c - 'a']) {

@@ -1,51 +1,13 @@
 package com.aytao.rubiks.trace;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Scanner;
+import java.util.Set;
 
-import com.aytao.rubiks.ResourceHandler;
 import com.aytao.rubiks.cube.Cube;
 import com.aytao.rubiks.cube.SpeffzUtils;
 import com.aytao.rubiks.utils.Defines;
 
 public class CycleTracer {
-
-  /* Maps a specific sticker to a set of all stickers on the same piece */
-  private static final HashMap<Character, HashSet<Character>> relatedEdgeStickers;
-  private static final HashMap<Character, HashSet<Character>> relatedCornerStickers;
-
-  static {
-    relatedEdgeStickers = getRelatedStickers("Connections/EdgeConnections.txt");
-    relatedCornerStickers = getRelatedStickers("Connections/CornerConnections.txt");
-  }
-
-  /*
-   * Opens the file connectionsFile and retrieves all related stickers for each
-   * piece. Returns
-   * a HashMap where each sticker maps to a set of all stickers on the same piece
-   */
-  private static HashMap<Character, HashSet<Character>> getRelatedStickers(String connectionsFileName) {
-    HashMap<Character, HashSet<Character>> map = new HashMap<>();
-
-    try (Scanner in = new Scanner(ResourceHandler.getFile(connectionsFileName), "utf-8")) {
-      while (in.hasNext()) {
-        String line = in.nextLine();
-        String[] stickers = line.split(",");
-
-        HashSet<Character> set = new HashSet<>();
-        for (String sticker : stickers) {
-          map.put(sticker.charAt(0), set);
-          set.add(sticker.charAt(0));
-        }
-      }
-    } catch (Exception e) {
-      throw new RuntimeException("Error opening file: '" + connectionsFileName + "'");
-    }
-
-    return map;
-  }
 
   /* Returns the order in which edge stickers should be swapped with the buffer */
   public static ArrayList<Character> edgeOrder(Cube cube, char edgeBuffer) {
@@ -60,7 +22,7 @@ public class CycleTracer {
       if (fixed[i]) {
         continue;
       }
-      HashSet<Character> set = relatedEdgeStickers.get((char) (i + 'a'));
+      Set<Character> set = SpeffzUtils.getRelatedEdgeStickersSet((char) (i + 'a'));
 
       // correctly oriented edges
       if (edgeReport[i] == i + 'a') {
@@ -80,11 +42,11 @@ public class CycleTracer {
 
     // First cycle (from buffer)
     char location = edgeReport[edgeBuffer - 'a'];
-    HashSet<Character> startStickers = relatedEdgeStickers.get(edgeBuffer);
+    Set<Character> startStickers = SpeffzUtils.getRelatedEdgeStickersSet(edgeBuffer);
     // Only executes if buffer isn't already in correct position
     if (!fixed[edgeBuffer - 'a']) {
       while (!startStickers.contains(location)) {
-        HashSet<Character> set = relatedEdgeStickers.get(location);
+        Set<Character> set = SpeffzUtils.getRelatedEdgeStickersSet(location);
         for (char c : set) {
           fixed[c - 'a'] = true;
         }
@@ -104,7 +66,7 @@ public class CycleTracer {
       for (j = 0; j < fixed.length; j++) {
         if (!fixed[j]) {
           newStart = (char) (j + 'a');
-          startStickers = relatedEdgeStickers.get(newStart);
+          startStickers = SpeffzUtils.getRelatedEdgeStickersSet(newStart);
           break;
         }
       }
@@ -117,7 +79,7 @@ public class CycleTracer {
       location = edgeReport[newStart - 'a'];
       // find cycle from new start
       while (!startStickers.contains(location)) {
-        HashSet<Character> set = relatedEdgeStickers.get(location);
+        Set<Character> set = SpeffzUtils.getRelatedEdgeStickersSet(location);
         for (char c : set) {
           fixed[c - 'a'] = true;
         }
@@ -151,7 +113,7 @@ public class CycleTracer {
       if (fixed[i]) {
         continue;
       }
-      HashSet<Character> set = relatedCornerStickers.get((char) (i + 'a'));
+      Set<Character> set = SpeffzUtils.getRelatedCornerStickersSet((char) (i + 'a'));
 
       // correctly oriented corners
       if (cornerReport[i] == i + 'a') {
@@ -171,11 +133,11 @@ public class CycleTracer {
 
     // First cycle (from buffer)
     char location = cornerReport[cornerBuffer - 'a'];
-    HashSet<Character> startStickers = relatedCornerStickers.get(cornerBuffer);
+    Set<Character> startStickers = SpeffzUtils.getRelatedCornerStickersSet(cornerBuffer);
     // Only executes if buffer isn't already in correct position
     if (!fixed[cornerBuffer - 'a']) {
       while (!startStickers.contains(location)) {
-        HashSet<Character> set = relatedCornerStickers.get(location);
+        Set<Character> set = SpeffzUtils.getRelatedCornerStickersSet(location);
         for (char c : set) {
           fixed[c - 'a'] = true;
         }
@@ -195,7 +157,7 @@ public class CycleTracer {
       for (j = 0; j < fixed.length; j++) {
         if (!fixed[j]) {
           newStart = (char) (j + 'a');
-          startStickers = relatedCornerStickers.get(newStart);
+          startStickers = SpeffzUtils.getRelatedCornerStickersSet(newStart);
           break;
         }
       }
@@ -208,7 +170,7 @@ public class CycleTracer {
       location = cornerReport[newStart - 'a'];
       // find cycle starting from new start
       while (!startStickers.contains(location)) {
-        HashSet<Character> set = relatedCornerStickers.get(location);
+        Set<Character> set = SpeffzUtils.getRelatedCornerStickersSet(location);
         for (char c : set) {
           fixed[c - 'a'] = true;
         }
@@ -227,6 +189,7 @@ public class CycleTracer {
     return order;
   }
 
+  // TODO: Use trace as trace instead of one at a time
   public Trace getTrace(Cube cube, char edgeBuffer, char cornerBuffer) {
     return new Trace(null, null, false);
   }
