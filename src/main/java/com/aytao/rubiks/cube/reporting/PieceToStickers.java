@@ -8,7 +8,9 @@
  *
  **************************************************************************** */
 
-package com.aytao.rubiks.trace.reporting;
+/* TODO: Return deep copies! */
+
+package com.aytao.rubiks.cube.reporting;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -39,11 +41,10 @@ public class PieceToStickers {
   }
 
   /*
-   * Takes the labels for each coordinate labelsFile, the set of connected
-   * stickers connectionsFile, and the number of stickers to be consider
-   * numStickers. Builds a hashmap which maps pieces, represented as a set of
-   * CubeColors, to a map which maps each color on that respective piece to the
-   * correct character.
+   * Takes the labels for each coordinate labelsFile and the set of connected
+   * stickers connectionsFile. Builds a hashmap which maps pieces, represented as
+   * a set of CubeColors, to a map which maps each color on that respective piece
+   * to the correct character.
    */
   private static HashMap<Set<CubeColor>, HashMap<CubeColor, Character>> getPieceMap(String labelsFileName,
       String connectionsFileName) {

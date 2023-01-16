@@ -60,20 +60,28 @@ public enum Move {
    * Parses a provided String into a Move.
    * Throws an UnsupportedOperationException for unsupported moves.
    */
-  public static Move move(String s) {
-    String s2 = s.replace('\'', 'p');
+  public static Move move(String moveStr) {
+    String s = moveStr.replace('\'', 'p');
     Move move;
     try {
-      if (Character.isLowerCase(s2.charAt(0))) {
-        if ('x' <= s2.charAt(0) && s2.charAt(0) <= 'z') {
-          s2 = Character.toUpperCase(s2.charAt(0)) + s2.substring(1);
-        } else {
-          s2 = Character.toUpperCase(s2.charAt(0)) + "w" + s2.substring(1);
+      if (Character.isLowerCase(s.charAt(0))) {
+        // Rotations
+        if ('x' <= s.charAt(0) && s.charAt(0) <= 'z') {
+          s = Character.toUpperCase(s.charAt(0)) + s.substring(1);
+        }
+        // Wide moves
+        else {
+          s = Character.toUpperCase(s.charAt(0)) + "w" + s.substring(1);
         }
       }
-      move = valueOf(s2);
+
+      // Ignore ' on double moves (M2', R2', etc.);
+      if (s.length() >= 3 && s.charAt(s.length() - 1) == 'p' && s.charAt(s.length() - 2) == '2') {
+        s = s.substring(0, s.length() - 1);
+      }
+      move = valueOf(s);
     } catch (IllegalArgumentException e) {
-      throw new UnsupportedOperationException("Move '" + s + "' is not supported");
+      throw new UnsupportedOperationException("Move '" + moveStr + "' is not supported");
     }
     return move;
   }

@@ -14,12 +14,12 @@ import java.util.HashSet;
 import java.util.Scanner;
 
 import com.aytao.rubiks.ResourceHandler;
-import com.aytao.rubiks.Solution;
 import com.aytao.rubiks.cube.Cube;
 import com.aytao.rubiks.cube.Move;
 import com.aytao.rubiks.cube.Sequence;
+import com.aytao.rubiks.cube.Solution;
+import com.aytao.rubiks.cube.reporting.StickerReport;
 import com.aytao.rubiks.trace.CycleTracer;
-import com.aytao.rubiks.trace.reporting.StickerReport;
 
 public class Pochmann {
   public static class PochmannSolution implements Solution {
@@ -83,7 +83,7 @@ public class Pochmann {
       }
     }
 
-    public ArrayList<Move> toMoves() {
+    public ArrayList<Move> toSequence() {
       ArrayList<Move> solution = new ArrayList<>();
       swapAllEdges(solution, edgeOrder);
       if (parity) {
@@ -307,7 +307,7 @@ public class Pochmann {
       cube.execute(scramble);
 
       PochmannSolution solution = getSolution(cube);
-      ArrayList<Move> solutionMoves = solution.toMoves();
+      ArrayList<Move> solutionMoves = solution.toSequence();
       boolean valid = checkValidity(scramble, solution.edgeOrder,
           solution.cornerOrder, solution.parity);
       if (!cube.validSolution(solutionMoves) || !valid) {

@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 import com.aytao.rubiks.ResourceHandler;
 import com.aytao.rubiks.cube.Cube;
-import com.aytao.rubiks.trace.reporting.StickerReport;
+import com.aytao.rubiks.cube.reporting.StickerReport;
 import com.aytao.rubiks.utils.Defines;
 
 public class CycleTracer {

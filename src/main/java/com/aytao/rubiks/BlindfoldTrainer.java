@@ -151,7 +151,7 @@ public class BlindfoldTrainer {
     }
 
     if (pochmannSolution != null) {
-      System.out.println(pochmannSolution.toMoves());
+      System.out.println(pochmannSolution.toSequence());
       Cube cube = new Cube();
       cube.execute(Sequence.getSequence(clientSolution.scramble));
       boolean validSolution = cube.validSolution(pochmannSolution);
@@ -176,7 +176,8 @@ public class BlindfoldTrainer {
       Cube cube = new Cube();
       cube.execute(Sequence.getSequence(scramble));
       PochmannSolution solution = Pochmann.getSolution(cube);
-      String response = MOVE_SAFE_GSON.toJson(StandardResponse.getWithSolution(Sequence.toString(solution.toMoves())));
+      String response = MOVE_SAFE_GSON
+          .toJson(StandardResponse.getWithSolution(Sequence.toString(solution.toSequence())));
       System.out.println(response);
       return response;
     } catch (Exception exception) {

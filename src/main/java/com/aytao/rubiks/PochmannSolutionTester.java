@@ -21,6 +21,6 @@ public class PochmannSolutionTester {
     cube.scrambleOrientation();
     cube.execute(Sequence.getSequence("D2 F' L' B' U L2 D L' D2 F2 R2 F2 R B2 R' B2 R' U2 L' B D' Fw Uw"));
     cube.scrambleOrientation();
-    System.out.println(cube.validSolution(p.toMoves()));
+    System.out.println(cube.validSolution(p.toSequence()));
   }
 }

@@ -13,8 +13,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
-import com.aytao.rubiks.Solution;
-
 public class Cube {
   // Dimension of the cube
   private static final int N = 3;
@@ -95,7 +93,7 @@ public class Cube {
    * Returns true if and only if the moves of the provided solution solve the cube
    */
   public boolean validSolution(Solution solution) {
-    return validSolution(solution.toMoves());
+    return validSolution(solution.toSequence());
   }
 
   /*
@@ -130,6 +128,7 @@ public class Cube {
     return sequence;
   }
 
+  // TODO: Don't reveal inner representation!!! Make package-private
   /* Returns a copy of the stickers array */
   public CubeColor[][][] getStickers() {
     CubeColor[][][] copy = new CubeColor[NUM_FACES][N][N];

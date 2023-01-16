@@ -7,7 +7,9 @@
  *
  **************************************************************************** */
 
-package com.aytao.rubiks.trace.reporting;
+/* TODO: Return deep copies! */
+
+package com.aytao.rubiks.cube.reporting;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -56,7 +58,7 @@ public class StickerReport {
         coords[c - 'a'] = new int[] { i, j, k };
       }
     } catch (Exception e) {
-      throw new RuntimeException("Error opening file '" + labelsFileName + "'");
+      throw new RuntimeException("Error opening file '" + labelsFileName + "'", e);
     }
 
     return coords;

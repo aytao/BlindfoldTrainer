@@ -1,0 +1,7 @@
+- Move away from all duplicate file reads. Aggregate into utils
+- Write better unit testing
+- Fix modules system
+
+Comm parsing:
+- Allow : in plain string (unbracketed)
+- Multicomms
