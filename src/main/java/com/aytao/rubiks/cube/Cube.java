@@ -75,11 +75,10 @@ public class Cube {
 
   /* Returns true if and only if the provided cube is solved */
   public boolean isSolved() {
-    ArrayList<Move> sequence = scrambleOrientation();
-    boolean ret = this.equals(SOLVED_STATE);
-    this.execute(Sequence.getInverse(sequence));
+    Cube clone = new Cube(this);
+    clone.scrambleOrientation();
 
-    return ret;
+    return clone.equals(SOLVED_STATE);
   }
 
   /* Returns true if and only if the provided moves solve the cube */
@@ -147,9 +146,9 @@ public class Cube {
     return stickers[face][row][col];
   }
 
-  /*******************************************************
+  /*****************************************************************************
    * Move execution methods
-   *******************************************************/
+   ****************************************************************************/
 
   /* Executes the move given as a parameter */
   public void execute(Move move) {
@@ -346,9 +345,9 @@ public class Cube {
     }
   }
 
-  /*******************************************************
+  /*****************************************************************************
    * Helper methods
-   *******************************************************/
+   ****************************************************************************/
 
   /* Returns a stickers array of a solved cube */
   private static CubeColor[][][] solvedState() {
@@ -427,9 +426,9 @@ public class Cube {
     copy(face, copy);
   }
 
-  /*******************************************************
+  /*****************************************************************************
    * Debugging methods
-   *******************************************************/
+   ****************************************************************************/
 
   /* Returns a String representation of this object */
   public String toString() {
@@ -513,9 +512,9 @@ public class Cube {
     return (yellow == n && red == n && green == n && orange == n && blue == n && white == n);
   }
 
-  /*******************************************************
+  /*****************************************************************************
    * U moves
-   *******************************************************/
+   ****************************************************************************/
 
   /* Turns the U face 1 quarter-turn clockwise */
   private void U() {
@@ -556,9 +555,9 @@ public class Cube {
     assert (isLegal());
   }
 
-  /*******************************************************
+  /*****************************************************************************
    * D moves
-   *******************************************************/
+   ****************************************************************************/
 
   /* Turns the D face 1 quarter-turn clockwise */
   private void D() {
@@ -598,9 +597,9 @@ public class Cube {
     assert (isLegal());
   }
 
-  /*******************************************************
+  /*****************************************************************************
    * F moves
-   *******************************************************/
+   ****************************************************************************/
 
   /* Turns the F face 1 quarter-turn clockwise */
   private void F() {
@@ -644,9 +643,9 @@ public class Cube {
     assert (isLegal());
   }
 
-  /*******************************************************
+  /*****************************************************************************
    * B moves
-   *******************************************************/
+   ****************************************************************************/
 
   /* Turns the B face 1 quarter-turn clockwise */
   private void B() {
@@ -690,9 +689,9 @@ public class Cube {
     assert (isLegal());
   }
 
-  /*******************************************************
+  /*****************************************************************************
    * R moves
-   *******************************************************/
+   ****************************************************************************/
 
   /* Turns the R face 1 quarter-turn clockwise */
   private void R() {
@@ -736,9 +735,9 @@ public class Cube {
     assert (isLegal());
   }
 
-  /*******************************************************
+  /*****************************************************************************
    * L moves
-   *******************************************************/
+   ****************************************************************************/
 
   /* Turns the L face 1 quarter-turn clockwise */
   private void L() {
@@ -782,9 +781,9 @@ public class Cube {
     assert (isLegal());
   }
 
-  /*******************************************************
+  /*****************************************************************************
    * M moves (M has same axis as L)
-   *******************************************************/
+   ****************************************************************************/
 
   /* Turns the M slice 1 quarter-turn clockwise */
   private void M() {
@@ -822,9 +821,9 @@ public class Cube {
     assert (isLegal());
   }
 
-  /*******************************************************
+  /*****************************************************************************
    * S moves (S has same axis as F)
-   *******************************************************/
+   ****************************************************************************/
 
   /* Turns the S slice 1 quarter-turn clockwise */
   private void S() {
@@ -862,9 +861,9 @@ public class Cube {
     assert (isLegal());
   }
 
-  /*******************************************************
+  /*****************************************************************************
    * E moves (E has same axis as D)
-   *******************************************************/
+   ****************************************************************************/
 
   /* Turns the E slice 1 quarter-turn clockwise */
   private void E() {
@@ -900,11 +899,11 @@ public class Cube {
     assert (isLegal());
   }
 
-  /*******************************************************
+  /*****************************************************************************
    * X Rotations
-   *******************************************************/
+   ****************************************************************************/
 
-  /* Rotate the entire cube one quarter turn on the R axis */
+  /* Rotate the entire cube one quarter turn clockwise on the R axis */
   private void X() {
     rotateCW(stickers[R]);
     rotateCCW(stickers[L]);
@@ -924,7 +923,7 @@ public class Cube {
     assert (isLegal());
   }
 
-  /* Rotate the entire cube one quarter turn on the L axis */
+  /* Rotate the entire cube one quarter turn clockwise on the L axis */
   private void Xp() {
     rotateCW(stickers[L]);
     rotateCCW(stickers[R]);
@@ -952,11 +951,11 @@ public class Cube {
     assert (isLegal());
   }
 
-  /*******************************************************
+  /*****************************************************************************
    * Y Rotations
-   *******************************************************/
+   ****************************************************************************/
 
-  /* Rotate the entire cube one quarter turn on the U axis */
+  /* Rotate the entire cube one quarter turn clockwise on the U axis */
   private void Y() {
     rotateCW(stickers[U]);
     rotateCCW(stickers[D]);
@@ -970,7 +969,7 @@ public class Cube {
     assert (isLegal());
   }
 
-  /* Rotate the entire cube one quarter turn on the D axis */
+  /* Rotate the entire cube one quarter turn clockwise on the D axis */
   private void Yp() {
     rotateCW(stickers[D]);
     rotateCCW(stickers[U]);
@@ -992,11 +991,11 @@ public class Cube {
     assert (isLegal());
   }
 
-  /*******************************************************
+  /*****************************************************************************
    * Z Rotations
-   *******************************************************/
+   ****************************************************************************/
 
-  /* Rotate the entire cube one quarter turn on the F axis */
+  /* Rotate the entire cube one quarter turn clockwise on the F axis */
   private void Z() {
     rotateCW(stickers[F]);
     rotateCCW(stickers[B]);
@@ -1016,7 +1015,7 @@ public class Cube {
     assert (isLegal());
   }
 
-  /* Rotate the entire cube one quarter turn on the F axis */
+  /* Rotate the entire cube one quarter turn counterclockwise on the F axis */
   private void Zp() {
     rotateCW(stickers[B]);
     rotateCCW(stickers[F]);
@@ -1044,7 +1043,9 @@ public class Cube {
     assert (isLegal());
   }
 
-  /*******************************************************/
+  /*****************************************************************************
+   * Unit testing
+   ****************************************************************************/
 
   /* Executes n random moves and prints the resulting state */
   private static void randomTurns(Cube cube, int n) {
@@ -1058,11 +1059,10 @@ public class Cube {
   }
 
   /*
-   * If a command line integer is provided, executes the provided number of random
-   * moves,
-   * and prints the moves and the resulting state of the cube to stdout.
-   * Otherwise, reads a
-   * scramble from stdin and prints out the resulting state of the cube.
+   * If a command line integer is provided, executes the provided number of
+   * random moves, and prints the moves and the resulting state of the cube to
+   * stdout. Otherwise, reads a scramble from stdin and prints out the resulting
+   * state of the cube.
    */
   public static void main(String[] args) {
     Cube cube = new Cube();
