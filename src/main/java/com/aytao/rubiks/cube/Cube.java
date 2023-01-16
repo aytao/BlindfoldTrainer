@@ -127,9 +127,8 @@ public class Cube {
     return sequence;
   }
 
-  // TODO: Don't reveal inner representation!!! Make package-private
   /* Returns a copy of the stickers array */
-  public CubeColor[][][] getStickers() {
+  CubeColor[][][] getStickers() {
     CubeColor[][][] copy = new CubeColor[NUM_FACES][N][N];
 
     for (int face = 0; face < NUM_FACES; face++) {
@@ -142,7 +141,7 @@ public class Cube {
   }
 
   /* Returns the color of the sticker at the requested coordinate */
-  public CubeColor getStickerAt(int face, int row, int col) {
+  CubeColor getStickerAt(int face, int row, int col) {
     return stickers[face][row][col];
   }
 
