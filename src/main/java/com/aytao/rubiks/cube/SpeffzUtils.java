@@ -9,31 +9,53 @@
 
 /* TODO: Return deep copies! */
 
-package com.aytao.rubiks.cube.reporting;
+package com.aytao.rubiks.cube;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 
 import com.aytao.rubiks.ResourceHandler;
-import com.aytao.rubiks.cube.Cube;
-import com.aytao.rubiks.cube.CubeColor;
-import com.aytao.rubiks.cube.Move;
 import com.aytao.rubiks.utils.Defines;
 
-public class StickerReport {
+public class SpeffzUtils {
+
   private static final int[][] edgeCoords;
-  private static final HashSet<HashSet<Character>> edgePieces;
+  private static final Set<Set<Character>> edgePieceSets;
 
   private static final int[][] cornerCoords;
-  private static final HashSet<HashSet<Character>> cornerPieces;
+  private static final Set<Set<Character>> cornerPieceSets;
 
+  private final static Map<Set<CubeColor>, Map<CubeColor, Character>> edgePieceMap;
+  private final static Map<Set<CubeColor>, Map<CubeColor, Character>> cornerPieceMap;
+
+  private static final Map<Character, Set<Character>> relatedEdgeStickers;
+  private final static Map<Character, Set<Character>> relatedCornerStickers;
+
+  /*****************************************************************************
+   * 
+   * INITIALIZERS
+   * 
+   ****************************************************************************/
   static {
+    Cube cube = new Cube();
+    cube.scrambleOrientation();
+    CubeColor[][][] allStickers = cube.getStickers();
+
     edgeCoords = getCoords("Labels/EdgeLabels.txt");
     cornerCoords = getCoords("Labels/CornerLabels.txt");
-    edgePieces = getPieces("Connections/EdgeConnections.txt");
-    cornerPieces = getPieces("Connections/CornerConnections.txt");
+
+    edgePieceSets = getPieces("Connections/EdgeConnections.txt");
+    cornerPieceSets = getPieces("Connections/CornerConnections.txt");
+
+    edgePieceMap = getPieceMap(edgeCoords, edgePieceSets, allStickers);
+    cornerPieceMap = getPieceMap(cornerCoords, cornerPieceSets, allStickers);
+
+    relatedEdgeStickers = getRelatedStickersMap(edgePieceSets);
+    relatedCornerStickers = getRelatedStickersMap(cornerPieceSets);
   }
 
   /*
@@ -70,8 +92,8 @@ public class StickerReport {
    * that represents stickers of the same piece, and the outer HashSet is a set
    * of all pieces
    */
-  private static HashSet<HashSet<Character>> getPieces(String connectionsFileName) {
-    HashSet<HashSet<Character>> piecesSet = new HashSet<>();
+  private static Set<Set<Character>> getPieces(String connectionsFileName) {
+    Set<Set<Character>> piecesSet = new HashSet<>();
     try (Scanner in = new Scanner(ResourceHandler.getFile(connectionsFileName), "utf-8")) {
       while (in.hasNext()) {
         String line = in.nextLine();
@@ -90,6 +112,40 @@ public class StickerReport {
     return piecesSet;
   }
 
+  private static Map<Set<CubeColor>, Map<CubeColor, Character>> getPieceMap(int[][] coords,
+      Set<Set<Character>> pieceSets, CubeColor[][][] allStickers) {
+    Map<Set<CubeColor>, Map<CubeColor, Character>> pieceToStickersMap = new HashMap<>();
+
+    CubeColor[] stickerColors = new CubeColor[Defines.NUM_SPEFFZ_LETTERS];
+
+    for (int i = 0; i < Defines.NUM_SPEFFZ_LETTERS; i++) {
+      int[] coord = coords[i];
+      stickerColors[i] = allStickers[coord[0]][coord[1]][coord[2]];
+    }
+
+    for (Set<Character> pieceSet : pieceSets) {
+      HashMap<CubeColor, Character> map = new HashMap<>();
+      for (char sticker : pieceSet) {
+        map.put(stickerColors[sticker - 'a'], sticker);
+      }
+      pieceToStickersMap.put(map.keySet(), map);
+    }
+
+    return pieceToStickersMap;
+  }
+
+  private static Map<Character, Set<Character>> getRelatedStickersMap(Set<Set<Character>> pieceSets) {
+    Map<Character, Set<Character>> map = new HashMap<>();
+
+    for (Set<Character> pieceSet : pieceSets) {
+      for (char sticker : pieceSet) {
+        map.put(sticker, pieceSet);
+      }
+    }
+
+    return map;
+  }
+
   /*
    * Given a Cube object cube, returns a char[] that represents the current state
    * of each edge-piece sticker on the cube. The array is indexed with 'a' at
@@ -106,14 +162,14 @@ public class StickerReport {
 
     char[] report = new char[Defines.NUM_SPEFFZ_LETTERS];
 
-    for (HashSet<Character> pieceStickers : edgePieces) {
+    for (Set<Character> pieceStickers : edgePieceSets) {
       HashSet<CubeColor> piece = new HashSet<>();
 
       for (char sticker : pieceStickers) {
         piece.add(colors[sticker - 'a']);
       }
 
-      HashMap<CubeColor, Character> map = PieceToStickers.getEdge(piece);
+      Map<CubeColor, Character> map = edgePieceMap.get(piece);
 
       if (map == null) {
         throw new IllegalArgumentException("Cube has invalid edge piece");
@@ -143,14 +199,14 @@ public class StickerReport {
 
     char[] report = new char[Defines.NUM_SPEFFZ_LETTERS];
 
-    for (HashSet<Character> pieceStickers : cornerPieces) {
+    for (Set<Character> pieceStickers : cornerPieceSets) {
       HashSet<CubeColor> piece = new HashSet<>();
 
       for (char sticker : pieceStickers) {
         piece.add(colors[sticker - 'a']);
       }
 
-      HashMap<CubeColor, Character> map = PieceToStickers.getCorner(piece);
+      Map<CubeColor, Character> map = cornerPieceMap.get(piece);
 
       if (map == null) {
         throw new IllegalArgumentException("Cube has invalid edge piece");

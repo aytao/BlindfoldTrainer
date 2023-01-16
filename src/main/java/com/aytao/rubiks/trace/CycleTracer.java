@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 import com.aytao.rubiks.ResourceHandler;
 import com.aytao.rubiks.cube.Cube;
-import com.aytao.rubiks.cube.reporting.StickerReport;
+import com.aytao.rubiks.cube.SpeffzUtils;
 import com.aytao.rubiks.utils.Defines;
 
 public class CycleTracer {
@@ -49,7 +49,7 @@ public class CycleTracer {
 
   /* Returns the order in which edge stickers should be swapped with the buffer */
   public static ArrayList<Character> edgeOrder(Cube cube, char edgeBuffer) {
-    char[] edgeReport = StickerReport.edgeReport(cube);
+    char[] edgeReport = SpeffzUtils.edgeReport(cube);
 
     ArrayList<Character> order = new ArrayList<>();
     boolean[] fixed = new boolean[Defines.NUM_SPEFFZ_LETTERS]; // keeps track of already addressed stickers
@@ -140,7 +140,7 @@ public class CycleTracer {
    * Returns the order in which corner stickers should be swapped with the buffer
    */
   public static ArrayList<Character> cornerOrder(Cube cube, char cornerBuffer) {
-    char[] cornerReport = StickerReport.cornerReport(cube);
+    char[] cornerReport = SpeffzUtils.cornerReport(cube);
 
     ArrayList<Character> order = new ArrayList<>();
     boolean[] fixed = new boolean[Defines.NUM_SPEFFZ_LETTERS]; // keeps track of already addressed stickers

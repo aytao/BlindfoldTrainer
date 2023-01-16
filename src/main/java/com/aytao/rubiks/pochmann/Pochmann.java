@@ -18,7 +18,6 @@ import com.aytao.rubiks.cube.Cube;
 import com.aytao.rubiks.cube.Move;
 import com.aytao.rubiks.cube.Sequence;
 import com.aytao.rubiks.cube.Solution;
-import com.aytao.rubiks.cube.reporting.StickerReport;
 import com.aytao.rubiks.trace.CycleTracer;
 
 public class Pochmann {
