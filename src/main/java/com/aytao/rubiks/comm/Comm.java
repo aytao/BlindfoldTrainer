@@ -19,6 +19,14 @@ public class Comm {
     this.root = parse(commStr);
   }
 
+  public ArrayList<Move> toSequence() {
+    return root.toSequence();
+  }
+
+  public String toString() {
+    return originalString;
+  }
+
   /*****************************************************************************
    * Parsing
    ****************************************************************************/
@@ -69,29 +77,6 @@ public class Comm {
     }
     return numSegments > 1;
   }
-
-  // private static String filterFirstLevel(String commStr) {
-  // int count = 0;
-  // int end = 0;
-  // // goes backwards to avoid re-indexing
-  // for (int i = commStr.length() - 1; i >= 0; i--) {
-  // if (commStr.charAt(i) == ']') {
-  // if (count == 0) {
-  // end = i;
-  // }
-  // count++;
-  // } else if (commStr.charAt(i) == '[') {
-
-  // if (count == 1) {
-  // commStr = commStr.substring(0, i) + commStr.substring(end + 1);
-  // }
-
-  // count--;
-  // }
-  // }
-
-  // return commStr;
-  // }
 
   /*
    * Find and returns the first unbracketed appearance of c, or -1 if there is
@@ -160,10 +145,6 @@ public class Comm {
 
     throw new UnsupportedOperationException(commStr);
 
-  }
-
-  public ArrayList<Move> toSequence() {
-    return root.toSequence();
   }
 
   public static void main(String[] args) {

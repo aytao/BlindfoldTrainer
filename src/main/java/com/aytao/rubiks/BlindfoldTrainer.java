@@ -23,19 +23,19 @@ import spark.Response;
 import spark.template.velocity.VelocityTemplateEngine;
 
 public class BlindfoldTrainer {
-  public static class StandardResponse {
+  private static class StandardResponse {
     public enum StatusResponse {
       SUCCESS,
       ERROR;
     }
 
-    private static class ExampleSolution {
+    static class ExampleSolution {
       String solution;
     }
 
-    private StatusResponse status;
-    private String message;
-    private JsonElement data;
+    StatusResponse status;
+    String message;
+    JsonElement data;
 
     public StandardResponse(StatusResponse status) {
       this.status = status;
@@ -64,7 +64,7 @@ public class BlindfoldTrainer {
       FAILURE;
     }
 
-    private SolutionStatus status;
+    SolutionStatus status;
 
     public SolutionResponse(SolutionStatus status) {
       this.status = status;

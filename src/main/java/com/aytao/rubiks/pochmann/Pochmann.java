@@ -157,8 +157,8 @@ public class Pochmann {
    * The buffers used for the edge swap (T perm) and corner swap (modified Y perm)
    * sequences
    */
-  private static final char EDGE_BUFFER = 'b';
-  private static final char CORNER_BUFFER = 'e';
+  public static final char EDGE_BUFFER = 'b';
+  public static final char CORNER_BUFFER = 'e';
 
   static {
     EDGE_SETUPS = getSetUpMoves("Setup Moves/EdgeSetUpMoves.txt", NUM_EDGE_STICKERS);

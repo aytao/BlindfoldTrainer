@@ -246,7 +246,7 @@ public class SpeffzUtils {
    ****************************************************************************/
 
   /* Letter must be between 'a' and 'x', inclusive */
-  private static boolean isValidSpeffzLetter(char c) {
+  public static boolean isValidSpeffzLetter(char c) {
     return c >= 'a' && c <= 'x';
   }
 

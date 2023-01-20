@@ -5,3 +5,6 @@
 Comm parsing:
 - Allow : in plain string (unbracketed)
 - Multicomms
+
+Comm mistakes:
+VD
