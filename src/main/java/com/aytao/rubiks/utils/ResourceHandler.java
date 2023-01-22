@@ -1,11 +1,10 @@
-package com.aytao.rubiks;
+package com.aytao.rubiks.utils;
 
 import java.io.File;
 import java.net.URL;
 import java.util.Scanner;
 
 public class ResourceHandler {
-  // TODO: Throw RuntimeException instead of Exception (so no handling)
   public static File getFile(String fileName) throws Exception {
     ClassLoader classLoader = ResourceHandler.class.getClassLoader();
     URL resource = classLoader.getResource(fileName);

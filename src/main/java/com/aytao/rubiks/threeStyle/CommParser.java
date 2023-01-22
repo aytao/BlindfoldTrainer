@@ -4,11 +4,11 @@ import java.io.FileReader;
 import java.util.List;
 import java.util.Set;
 
-import com.aytao.rubiks.ResourceHandler;
 import com.aytao.rubiks.comm.Comm;
 import com.aytao.rubiks.cube.Sequence;
 import com.aytao.rubiks.cube.SpeffzUtils;
 import com.aytao.rubiks.utils.Defines;
+import com.aytao.rubiks.utils.ResourceHandler;
 
 import au.com.bytecode.opencsv.CSVReader;
 
@@ -73,9 +73,10 @@ public class CommParser {
     }
   }
 
-  public static Comm getComm(Comm[][] comms, char target1, char target2) {
+  private static Comm getComm(Comm[][] comms, char target1, char target2) {
     validateTarget(target1);
     validateTarget(target2);
+    // TODO: validate that none of the three targets are on the same piece
 
     return comms[target1 - 'a'][target2 - 'a'];
   }

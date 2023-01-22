@@ -18,7 +18,7 @@ import java.util.Stack;
 import org.worldcubeassociation.tnoodle.scrambles.Puzzle;
 import org.worldcubeassociation.tnoodle.scrambles.PuzzleRegistry;
 
-import com.aytao.rubiks.ResourceHandler;
+import com.aytao.rubiks.utils.ResourceHandler;
 
 public class Sequence {
   private static final Puzzle SCRAMBLER = PuzzleRegistry.THREE.getScrambler();

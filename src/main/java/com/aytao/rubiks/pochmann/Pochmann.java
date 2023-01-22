@@ -11,13 +11,13 @@ package com.aytao.rubiks.pochmann;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import com.aytao.rubiks.ResourceHandler;
 import com.aytao.rubiks.cube.Cube;
 import com.aytao.rubiks.cube.Move;
 import com.aytao.rubiks.cube.Sequence;
 import com.aytao.rubiks.cube.Solution;
 import com.aytao.rubiks.cube.SpeffzUtils;
 import com.aytao.rubiks.trace.CycleTracer;
+import com.aytao.rubiks.utils.ResourceHandler;
 
 public class Pochmann {
   public static class PochmannSolution implements Solution {

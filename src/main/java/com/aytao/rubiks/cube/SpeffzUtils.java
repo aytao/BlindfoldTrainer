@@ -16,8 +16,8 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
-import com.aytao.rubiks.ResourceHandler;
 import com.aytao.rubiks.utils.Defines;
+import com.aytao.rubiks.utils.ResourceHandler;
 
 public class SpeffzUtils {
 
