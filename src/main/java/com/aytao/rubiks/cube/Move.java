@@ -34,6 +34,21 @@ public enum Move {
   Y, Yp, Y2,
   Z, Zp, Z2;
 
+  public static class IllegalMoveException extends IllegalArgumentException {
+
+    private String moveStr;
+
+    public IllegalMoveException(String moveStr) {
+      super();
+      this.moveStr = moveStr;
+    }
+
+    @Override
+    public String toString() {
+      return "Move '" + this.moveStr + "' is not supported";
+    }
+  }
+
   // all moves
   private static final Move[] allMoves = Move.values();
 
@@ -58,7 +73,7 @@ public enum Move {
 
   /*
    * Parses a provided String into a Move.
-   * Throws an UnsupportedOperationException for unsupported moves.
+   * Throws an IllegalMoveException for unsupported moves.
    */
   public static Move move(String moveStr) {
     String s = moveStr.replace('\'', 'p');
@@ -81,7 +96,7 @@ public enum Move {
       }
       move = valueOf(s);
     } catch (IllegalArgumentException e) {
-      throw new UnsupportedOperationException("Move '" + moveStr + "' is not supported");
+      throw new IllegalMoveException(moveStr);
     }
     return move;
   }

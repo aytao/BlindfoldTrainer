@@ -6,6 +6,22 @@ import com.aytao.rubiks.cube.Move;
 import com.aytao.rubiks.cube.Sequence;
 
 public class Comm {
+
+  public static class UnbalancedBracketsException extends IllegalArgumentException {
+    private String commString;
+
+    public UnbalancedBracketsException(String commString) {
+      super();
+      this.commString = commString;
+    }
+
+    @Override
+    public String toString() {
+      return "Comm string '" + this.commString + "' has unbalanced brackets";
+    }
+
+  }
+
   private Component root;
   private String originalString;
   private static final char L_BRACKET = '[';
@@ -100,7 +116,7 @@ public class Comm {
 
   private static Component parse(String commStr) {
     if (!balanced(commStr)) {
-      throw new IllegalArgumentException("String provided has unbalanced brackets");
+      throw new UnbalancedBracketsException("String provided has unbalanced brackets");
     }
 
     commStr = commStr.trim();

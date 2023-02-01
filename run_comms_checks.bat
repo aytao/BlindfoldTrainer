@@ -1,1 +1,1 @@
-mvn compile && mvn exec:java -e -Dexec.mainClass="com.aytao.rubiks.threeStyle.CommHandler"
+mvn compile && mvn exec:java -e -Dexec.mainClass="com.aytao.rubiks.clients.CommsValidator"

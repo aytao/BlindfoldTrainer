@@ -5,4 +5,8 @@ public enum CommValidity {
   DISRUPTS_OTHER_TYPE, DISRUPTS_SAME_TYPE,
   INCORRECT_CYCLE,
   VALID;
+
+  public static boolean isValid(CommValidity cv) {
+    return cv == VALID;
+  }
 }
