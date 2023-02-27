@@ -1,6 +1,7 @@
 - Write better unit testing
 - Fix modules system
 - Remove dependency on implementation vs interface (i.e. returning ArrayList instead of List)
+- Shift to Sequence object instead of raw list
 
 Comm parsing:
 - Allow : in plain string (unbracketed)

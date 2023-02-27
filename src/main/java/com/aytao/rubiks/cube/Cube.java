@@ -11,6 +11,7 @@ package com.aytao.rubiks.cube;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class Cube {
@@ -48,6 +49,12 @@ public class Cube {
   // not copy move recording information
   public Cube(Cube cube) {
     stickers = cube.getStickers();
+  }
+
+  public Cube(List<Move> scramble) {
+    stickers = solvedState();
+    this.scrambleOrientation();
+    this.execute(scramble);
   }
 
   /*
@@ -338,7 +345,7 @@ public class Cube {
   }
 
   /* Executes a sequence of moves */
-  public void execute(ArrayList<Move> moves) {
+  public void execute(List<Move> moves) {
     for (Move move : moves) {
       execute(move);
     }
