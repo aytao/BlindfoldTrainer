@@ -143,6 +143,48 @@ public class SpeffzUtils {
   }
 
   /*****************************************************************************
+   * Sticker Colors
+   ****************************************************************************/
+  public static CubeColor getEdgeStickerColor(char c, Cube cube) {
+    c = Character.toLowerCase(c);
+    if (!isValidSpeffzLetter(c)) {
+      throw new IllegalArgumentException("Letter " + c + " is not a valid Speffz letter");
+    }
+
+    int[] coord = edgeCoords[c - 'a'];
+
+    return cube.getStickerAt(coord[0], coord[1], coord[2]);
+  }
+
+  public static CubeColor getCornerStickerColor(char c, Cube cube) {
+    c = Character.toLowerCase(c);
+    if (!isValidSpeffzLetter(c)) {
+      throw new IllegalArgumentException("Letter " + c + " is not a valid Speffz letter");
+    }
+
+    int[] coord = cornerCoords[c - 'a'];
+
+    return cube.getStickerAt(coord[0], coord[1], coord[2]);
+  }
+
+  public static CubeColor getCenterStickerColor(Face face, Cube cube) {
+    return cube.getStickerAt(face.faceNum, 1, 1);
+  }
+
+  public static CubeColor[][] getWholeFace(Face face, Cube cube) {
+    CubeColor[][] ret = new CubeColor[Cube.N][Cube.N];
+    CubeColor[][] faceColors = cube.getStickers()[face.faceNum];
+
+    for (int i = 0; i < ret.length; i++) {
+      for (int j = 0; j < ret[i].length; j++) {
+        ret[i][j] = faceColors[i][j];
+      }
+    }
+
+    return ret;
+  }
+
+  /*****************************************************************************
    * Related Sticker Sets
    ****************************************************************************/
 

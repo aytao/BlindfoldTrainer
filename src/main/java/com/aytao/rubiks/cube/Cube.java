@@ -15,18 +15,18 @@ import java.util.Scanner;
 
 public class Cube {
   // Dimension of the cube
-  private static final int N = 3;
+  static final int N = 3;
 
   // Number of faces on the cube
-  private static final int NUM_FACES = 6;
+  static final int NUM_FACES = 6;
 
   // Face names
-  private static final int U = 0;
-  private static final int L = 1;
-  private static final int F = 2;
-  private static final int R = 3;
-  private static final int B = 4;
-  private static final int D = 5;
+  static final int U = 0;
+  static final int L = 1;
+  static final int F = 2;
+  static final int R = 3;
+  static final int B = 4;
+  static final int D = 5;
 
   // A Cube in the solved state
   private static final Cube SOLVED_STATE;
