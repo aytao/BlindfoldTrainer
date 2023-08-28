@@ -2,15 +2,15 @@ package com.aytao.rubiks.miscramble;
 
 import com.aytao.rubiks.cube.Cube;
 
-public class NoCheck extends ScrambleChecker {
+public class FullCheck extends ScrambleChecker {
 
   @Override
   public boolean checkMisscramble(Cube misscrambledCube, Cube correctlyScrambledCube) {
-    return true;
+    return misscrambledCube.equals(correctlyScrambledCube);
   }
 
   @Override
   public String toString() {
-    return "No Check: " + getMissRate();
+    return "Full Check: " + getMissRate();
   }
 }

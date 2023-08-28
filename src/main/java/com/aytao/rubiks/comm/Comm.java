@@ -84,11 +84,11 @@ public class Comm {
       if (commStr.charAt(i) == L_BRACKET) {
         count++;
       } else if (commStr.charAt(i) == R_BRACKET) {
+        count--;
 
-        if (count == 1) {
+        if (count == 0) {
           numSegments++;
         }
-        count--;
       }
     }
     return numSegments > 1;
